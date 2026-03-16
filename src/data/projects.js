@@ -1,0 +1,38 @@
+export const projects = [
+  {
+    id: 'brand-film-01',
+    title: 'STILL WATER',
+    client: 'Confidential',
+    year: '2024',
+    type: 'Color Grade',
+    image: '/images/project-01.jpg',
+    url: '#',
+  },
+  {
+    id: 'doc-series-02',
+    title: 'KARACHI SESSIONS',
+    client: 'Independent',
+    year: '2023',
+    type: 'Edit + Grade',
+    image: '/images/project-02.jpg',
+    url: '#',
+  },
+  {
+    id: 'brand-campaign-03',
+    title: 'HORIZON',
+    client: 'Under NDA',
+    year: '2023',
+    type: 'Color Grade',
+    image: '/images/project-03.jpg',
+    url: '#',
+  },
+  {
+    id: 'short-film-04',
+    title: 'THE LAST REEL',
+    client: 'Festival Circuit',
+    year: '2022',
+    type: 'Edit + Grade',
+    image: '/images/project-04.jpg',
+    url: '#',
+  },
+]

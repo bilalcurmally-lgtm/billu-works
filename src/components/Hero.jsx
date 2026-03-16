@@ -1,0 +1,207 @@
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const STATS = [
+  { value: '20+', label: 'Years' },
+  { value: '3',   label: 'Disciplines' },
+  { value: '∞',   label: 'Projects' },
+]
+
+export default function Hero() {
+  const sectionRef = useRef(null)
+  const imageRef   = useRef(null)
+  const linesRef   = useRef([])
+  const scrollRef  = useRef(null)
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Entrance: stagger text lines
+      if (!prefersReduced) {
+        gsap.from(linesRef.current, {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'power3.out',
+          delay: 0.2,
+        })
+
+        // Parallax on hero image
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+          onUpdate: (self) => {
+            if (imageRef.current) {
+              gsap.set(imageRef.current, { y: self.progress * 80 })
+            }
+          },
+        })
+
+        // Fade scroll indicator
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '20% top',
+          scrub: true,
+          onUpdate: (self) => {
+            if (scrollRef.current) {
+              gsap.set(scrollRef.current, { opacity: 1 - self.progress * 2 })
+            }
+          },
+        })
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [prefersReduced])
+
+  const lines = [
+    { text: "I edit your stories.",    big: true },
+    { text: "Grade your footage.",      big: true },
+    { text: "Write when needed.",       big: true },
+    { text: "And break things in Python.", big: true },
+  ]
+
+  return (
+    <section
+      ref={sectionRef}
+      id="hero"
+      className="section-panel relative flex flex-col"
+      style={{ minHeight: '100dvh' }}
+    >
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-6 md:px-12 pt-7">
+        <span className="font-heading text-sm tracking-tight" style={{ color: '#555' }}>
+          billu.works
+        </span>
+        <div className="flex items-center gap-2">
+          <span
+            className="inline-block w-2 h-2 rounded-full"
+            style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite' }}
+          />
+          <span className="font-mono-jet text-xs" style={{ color: '#888', fontSize: '11px' }}>
+            Available for new projects
+          </span>
+        </div>
+      </div>
+
+      {/* Main content + image */}
+      <div className="flex-1 flex items-end pb-16 md:pb-20 relative">
+        {/* Text block — bottom left */}
+        <div className="px-6 md:px-12 z-10 relative max-w-2xl">
+          <p
+            ref={el => linesRef.current[0] = el}
+            className="font-heading mb-3"
+            style={{ color: '#555', fontSize: '14px', letterSpacing: '0.05em' }}
+          >
+            Hi, I'm Billu
+          </p>
+
+          <div className="mb-6">
+            {lines.map((line, i) => (
+              <h1
+                key={i}
+                ref={el => linesRef.current[i + 1] = el}
+                className="font-heading font-bold leading-tight tracking-tight"
+                style={{
+                  fontSize: 'clamp(28px, 4.5vw, 56px)',
+                  color: '#F5F5F0',
+                  margin: 0,
+                }}
+              >
+                {line.text}
+              </h1>
+            ))}
+          </div>
+
+          <div
+            ref={el => linesRef.current[5] = el}
+            className="font-mono-jet"
+            style={{ color: '#555', fontSize: '12px', lineHeight: 1.7, letterSpacing: '0.05em' }}
+          >
+            <div>20 years. Karachi.</div>
+            <div>Currently: accepting work +</div>
+            <div>building things that shouldn't exist.</div>
+          </div>
+        </div>
+
+        {/* Hero image — right side */}
+        <div
+          className="absolute right-0 top-0 bottom-0 hidden md:block"
+          style={{ width: '42%', overflow: 'hidden' }}
+        >
+          <div
+            ref={imageRef}
+            className="w-full h-full"
+            style={{
+              backgroundImage: 'url(/images/hero-portrait.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center top',
+              maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.9) 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.9) 100%)',
+              filter: 'brightness(0.55) contrast(1.1)',
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Stats row */}
+      <div
+        className="flex items-center gap-0 px-6 md:px-12 pb-8"
+        style={{ borderTop: '1px solid #1a1a1a' }}
+      >
+        {STATS.map((stat, i) => (
+          <div key={stat.label} className="flex items-center">
+            <div className="py-4 pr-6 md:pr-10">
+              <div
+                className="font-mono-jet font-medium"
+                style={{ color: '#F5F5F0', fontSize: 'clamp(20px, 3vw, 28px)' }}
+              >
+                {stat.value}
+              </div>
+              <div className="font-mono-jet mt-0.5" style={{ color: '#555', fontSize: '11px', letterSpacing: '0.1em' }}>
+                {stat.label}
+              </div>
+            </div>
+            {i < STATS.length - 1 && (
+              <div style={{ width: '1px', height: '40px', background: '#222', marginRight: '24px' }} />
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Scroll indicator */}
+      <div
+        ref={scrollRef}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
+        style={{ color: '#333' }}
+      >
+        <div
+          className="w-px"
+          style={{
+            height: '40px',
+            background: 'linear-gradient(to bottom, transparent, #444)',
+            animation: prefersReduced ? 'none' : 'scrollPulse 2s ease-in-out infinite',
+          }}
+        />
+      </div>
+
+      <style>{`
+        @keyframes scrollPulse {
+          0%, 100% { opacity: 0.3; transform: scaleY(1); }
+          50% { opacity: 1; transform: scaleY(1.15); }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+      `}</style>
+    </section>
+  )
+}
