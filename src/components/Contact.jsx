@@ -3,30 +3,20 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Instagram, Linkedin, Github, Send } from 'lucide-react'
 import { useMagneticButton } from '../utils/useMagneticButton'
-
-gsap.registerPlugin(ScrollTrigger)
-
-const PROJECT_TYPES = [
-  'Color Grade',
-  'Edit + Grade',
-  'Edit Only',
-  'Brand Film',
-  'Documentary',
-  'AI Workflow',
-  'Other',
-]
+import { useReducedMotion } from '../utils/useReducedMotion'
 
 export default function Contact() {
   const sectionRef = useRef(null)
   const headRef    = useRef(null)
   const formRef    = useRef(null)
   const btnRef     = useMagneticButton(0.3)
+  const prefersReduced = useReducedMotion()
 
-  const [form, setForm]       = useState({ name: '', type: '', budget: '', message: '' })
-  const [status, setStatus]   = useState('idle') // idle | sending | success | error
+  const [form, setForm]               = useState({ name: '', email: '', message: '', _gotcha: '' })
+  const [status, setStatus]           = useState('idle') // idle | sending | success | error
+  const [submittedName, setSubmittedName] = useState('')
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
 
     const ctx = gsap.context(() => {
@@ -41,7 +31,7 @@ export default function Contact() {
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [prefersReduced])
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -49,17 +39,22 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (status === 'sending') return
+    // Honeypot — bots fill this hidden field, humans don't
+    if (form._gotcha) return
+
     setStatus('sending')
+    setSubmittedName(form.name)
     try {
       // Replace YOUR_FORM_ID with your Formspree form ID
       const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
       })
       if (res.ok) {
         setStatus('success')
-        setForm({ name: '', type: '', budget: '', message: '' })
+        setForm({ name: '', email: '', message: '', _gotcha: '' })
       } else {
         setStatus('error')
       }
@@ -114,7 +109,7 @@ export default function Contact() {
             >
               <div className="font-display text-3xl mb-2">TICKET RECEIVED</div>
               <p className="font-mono-jet text-xs tracking-widest" style={{ color: '#666' }}>
-                I'll be in touch soon. Thanks, {form.name || 'friend'}.
+                I'll be in touch soon. Thanks, {submittedName || 'friend'}.
               </p>
             </div>
           ) : (
@@ -126,7 +121,7 @@ export default function Contact() {
               {/* Form header */}
               <div className="px-6 pt-6 pb-4 flex items-center justify-between">
                 <span className="font-mono-jet text-xs tracking-widest" style={{ color: '#888' }}>
-                  INQUIRY FORM
+                  GET IN TOUCH
                 </span>
                 <span className="font-mono-jet text-xs" style={{ color: '#aaa' }}>
                   billu.works
@@ -134,6 +129,17 @@ export default function Contact() {
               </div>
 
               <div className="ticket-perforation mx-4 mb-5" />
+
+              {/* Honeypot — hidden from humans, bots fill it */}
+              <input
+                type="text"
+                name="_gotcha"
+                value={form._gotcha}
+                onChange={handleChange}
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
 
               <div className="px-6 pb-6 flex flex-col gap-4">
                 {/* Name */}
@@ -152,54 +158,35 @@ export default function Contact() {
                   />
                 </div>
 
-                {/* Project type */}
+                {/* Email */}
                 <div>
                   <label className="font-mono-jet block mb-1.5" style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}>
-                    PROJECT TYPE
+                    YOUR EMAIL
                   </label>
-                  <select
-                    name="type"
-                    value={form.type}
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
                     onChange={handleChange}
+                    placeholder="you@example.com"
                     required
-                    style={{ ...inputStyle, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: form.type ? '#1A1A1A' : '#999', cursor: 'pointer' }}
-                  >
-                    <option value="" disabled>Select a type</option>
-                    {PROJECT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-                  </select>
-                </div>
-
-                {/* Budget */}
-                <div>
-                  <label className="font-mono-jet block mb-1.5" style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}>
-                    BUDGET RANGE
-                  </label>
-                  <select
-                    name="budget"
-                    value={form.budget}
-                    onChange={handleChange}
-                    style={{ ...inputStyle, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: form.budget ? '#1A1A1A' : '#999', cursor: 'pointer' }}
-                  >
-                    <option value="">Prefer not to say</option>
-                    <option value="Under $500">Under $500</option>
-                    <option value="$500–$2000">$500–$2,000</option>
-                    <option value="$2000–$5000">$2,000–$5,000</option>
-                    <option value="$5000+">$5,000+</option>
-                  </select>
+                    style={{ ...inputStyle, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A' }}
+                  />
                 </div>
 
                 {/* Message */}
                 <div>
                   <label className="font-mono-jet block mb-1.5" style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}>
-                    TELL ME ABOUT IT
+                    YOUR MESSAGE
                   </label>
                   <textarea
                     name="message"
                     value={form.message}
                     onChange={handleChange}
                     rows={4}
-                    placeholder="What are you working on?"
+                    placeholder="What's on your mind?"
                     required
+                    maxLength={2000}
                     style={{ ...inputStyle, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A', resize: 'vertical', minHeight: '110px' }}
                   />
                 </div>

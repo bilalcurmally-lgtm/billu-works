@@ -8,6 +8,10 @@
 html {
   background: #080808;
   color: #F5F5F0;
+  color-scheme: dark;
+  /* Force sRGB color space — prevents Chrome/Edge/Firefox
+     from applying different color profiles to the same hex values */
+  forced-color-adjust: none;
 }
 
 body {
@@ -36,10 +40,63 @@ body::before {
 
 /* ─── Ticket Perforations ────────────────────────────────── */
 .ticket-perforation {
-  border-top: 2px dashed rgba(26, 26, 26, 0.5);
+  position: relative;
+  border-top: 2px dashed rgba(26, 26, 26, 0.35);
 }
+/* Semicircle notch dots at the edges of perforation lines */
+.ticket-perforation::before,
+.ticket-perforation::after {
+  content: '';
+  position: absolute;
+  top: -7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #080808;
+}
+.ticket-perforation::before { left: -6px; }
+.ticket-perforation::after  { right: -6px; }
+
+/* Variant for perforations inside ticket with notches cutting into cream bg */
+.ticket-perforation-inset::before,
+.ticket-perforation-inset::after {
+  background: #080808;
+}
+
 .ticket-perforation-light {
   border-top: 1px dashed rgba(255, 255, 255, 0.15);
+}
+
+/* ─── Ticket Stub Shape ─────────────────────────────────── */
+/* Proper ticket with semicircle notches on edges */
+.ticket-shape {
+  position: relative;
+}
+/* Top-center notch */
+.ticket-shape::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #080808;
+  z-index: 1;
+}
+/* Bottom-center notch */
+.ticket-shape::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #080808;
+  z-index: 1;
 }
 
 /* ─── Film Strip ─────────────────────────────────────────── */
@@ -66,6 +123,26 @@ body::before {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #080808; }
 ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+/* ─── Shared Keyframes ───────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.15); }
+}
+
+/* ─── Project Card Focus ─────────────────────────────────── */
+.project-card:focus-visible {
+  outline: 2px solid #F5F0E8;
+  outline-offset: 4px;
+}
+.project-card:focus:not(:focus-visible) {
+  outline: none;
+}
 
 /* ─── Selection ──────────────────────────────────────────── */
 ::selection { background: #F5F0E8; color: #1A1A1A; }

@@ -6,7 +6,16 @@
       "mcp__plugin_playwright_playwright__browser_take_screenshot",
       "mcp__plugin_playwright_playwright__browser_evaluate",
       "mcp__plugin_playwright_playwright__browser_click",
-      "mcp__plugin_playwright_playwright__browser_snapshot"
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "Bash(curl:*)",
+      "Skill(plan-eng-review)",
+      "Bash(npx vite:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npx playwright:*)",
+      "Bash(ls:*)",
+      "mcp__plugin_playwright_playwright__browser_wait_for",
+      "WebFetch(domain:vimeo.com)"
     ]
   }
 }

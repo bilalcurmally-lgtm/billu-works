@@ -1,23 +1,16 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-
-const TAGS = [
-  { label: 'Video Editor', rot: -2 },
-  { label: 'Colorist',     rot:  3 },
-  { label: 'Writer',       rot: -1 },
-  { label: 'Coding Hopeful', rot: 2 },
-  { label: 'Vibe Code Noob', rot: -3 },
-]
+import { useReducedMotion } from '../utils/useReducedMotion'
 
 export default function OpeningAnimation({ onComplete }) {
   const overlayRef  = useRef(null)
+  const portraitRef = useRef(null)
   const nameRef     = useRef(null)
-  const tagsRef     = useRef([])
   const ticketRef   = useRef(null)
   const tlRef       = useRef(null)
   const doneRef     = useRef(false)
 
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const prefersReduced = useReducedMotion()
 
   const finish = () => {
     if (doneRef.current) return
@@ -31,16 +24,8 @@ export default function OpeningAnimation({ onComplete }) {
 
     tlRef.current?.kill()
     const exit = gsap.timeline({ onComplete })
-    exit.to(tagsRef.current, {
-      x: () => (Math.random() - 0.5) * window.innerWidth * 2,
-      y: () => (Math.random() - 0.5) * window.innerHeight * 2,
-      opacity: 0,
-      duration: 0.5,
-      stagger: 0.04,
-      ease: 'power3.in',
-    })
-    exit.to(nameRef.current, { scale: 1.08, opacity: 0, duration: 0.35, ease: 'power2.inOut' }, '<0.1')
-    exit.to(ticketRef.current, { scaleY: 0, opacity: 0, duration: 0.3, ease: 'power3.in', transformOrigin: 'bottom center' }, '<0.05')
+    exit.to([nameRef.current, portraitRef.current], { scale: 1.04, opacity: 0, duration: 0.4, ease: 'power2.inOut' })
+    exit.to(ticketRef.current,  { scaleY: 0, opacity: 0, duration: 0.3, ease: 'power3.in', transformOrigin: 'bottom center' }, '<0.1')
     exit.to(overlayRef.current, { opacity: 0, duration: 0.25, ease: 'power2.out' }, '>-0.1')
   }
 
@@ -53,25 +38,25 @@ export default function OpeningAnimation({ onComplete }) {
     const tl = gsap.timeline()
     tlRef.current = tl
 
-    // Set initial states
-    gsap.set(nameRef.current,    { color: '#1A1A1A', scale: 1, opacity: 1 })
-    gsap.set(tagsRef.current,    { opacity: 0, y: 40 })
-    gsap.set(ticketRef.current,  { opacity: 0, y: 60, pointerEvents: 'none' })
+    gsap.set(portraitRef.current, { opacity: 0 })
+    gsap.set(nameRef.current,     { opacity: 0 })
+    gsap.set(ticketRef.current,   { opacity: 0, y: 60, pointerEvents: 'none' })
 
     tl
+      // BILLU slams in first
       .to(nameRef.current, {
-        color: '#F5F5F0',
-        duration: 0.8,
-        delay: 0.6,
-        ease: 'power2.inOut',
-      })
-      .to(tagsRef.current, {
         opacity: 1,
-        y: 0,
-        duration: 0.5,
-        stagger: 0.08,
+        duration: 0.7,
+        delay: 0.3,
         ease: 'power3.out',
-      }, '+=0.0')
+      })
+      // Portrait seeps in behind it
+      .to(portraitRef.current, {
+        opacity: 0.11,
+        duration: 1.4,
+        ease: 'power2.inOut',
+      }, '-=0.2')
+      // Ticket slides up
       .to(ticketRef.current, {
         opacity: 1,
         y: 0,
@@ -79,7 +64,6 @@ export default function OpeningAnimation({ onComplete }) {
         ease: 'power3.out',
         onComplete: () => {
           gsap.set(ticketRef.current, { pointerEvents: 'auto' })
-          // Gentle pulse
           gsap.to(ticketRef.current, {
             scale: 1.015,
             duration: 1.2,
@@ -88,62 +72,52 @@ export default function OpeningAnimation({ onComplete }) {
             repeat: -1,
           })
         },
-      }, '+=0.2')
+      }, '+=0.25')
 
-    return () => {
-      tl.kill()
-    }
-  }, []) // eslint-disable-line
-
-  // Float tags with sin loop
-  useEffect(() => {
-    if (prefersReduced) return
-    const tweens = tagsRef.current.map((el, i) => {
-      if (!el) return null
-      return gsap.to(el, {
-        y: `+=${6 + i * 2}`,
-        duration: 1.8 + i * 0.3,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: i * 0.2,
-      })
-    })
-    return () => tweens.forEach(t => t?.kill())
+    return () => { tl.kill() }
   }, []) // eslint-disable-line
 
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-bg overflow-hidden"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
       style={{ background: '#080808' }}
     >
-      {/* BILLU name */}
+      {/* Portrait — atmospheric ghost behind everything */}
+      <div
+        ref={portraitRef}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "url('/images/side-profile.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 20%',
+          filter: 'blur(2px)',
+        }}
+      />
+
+      {/* Dark vignette to push portrait further back */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.75) 70%, rgba(8,8,8,0.95) 100%)',
+        }}
+      />
+
+      {/* BILLU — clean gradient text over the ghost portrait */}
       <div
         ref={nameRef}
-        className="font-display select-none text-center leading-none mb-12"
-        style={{ fontSize: 'clamp(80px, 15vw, 220px)', letterSpacing: '-0.02em' }}
+        className="font-display select-none text-center leading-none mb-10 relative"
+        style={{
+          fontSize: 'clamp(10rem, 30vw, 40rem)',
+          letterSpacing: '-0.03em',
+          lineHeight: 1,
+          backgroundImage: 'linear-gradient(to bottom, #F5F5F0 0%, #F5F5F0 35%, #888888 70%, #3a3a3a 100%)',
+          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
+          color: 'transparent',
+        }}
       >
         BILLU
-      </div>
-
-      {/* Floating skill tags */}
-      <div className="flex flex-wrap justify-center gap-3 max-w-lg mb-16 pointer-events-none">
-        {TAGS.map((tag, i) => (
-          <span
-            key={tag.label}
-            ref={el => tagsRef.current[i] = el}
-            className="font-mono-jet text-xs tracking-widest px-3 py-1.5 rounded-full border"
-            style={{
-              borderColor: '#F5F0E8',
-              color: '#F5F0E8',
-              background: 'transparent',
-              transform: `rotate(${tag.rot}deg)`,
-            }}
-          >
-            {tag.label}
-          </span>
-        ))}
       </div>
 
       {/* Ticket Stub */}
@@ -156,41 +130,47 @@ export default function OpeningAnimation({ onComplete }) {
         aria-label="Enter site"
       >
         <div
-          className="rounded-2xl overflow-hidden"
+          className="ticket-shape rounded-2xl"
           style={{
             background: '#F5F0E8',
             color: '#1A1A1A',
             width: 'clamp(260px, 40vw, 380px)',
             boxShadow: '0 20px 60px rgba(0,0,0,0.6)',
-            clipPath: 'polygon(0 0, calc(100% - 0px) 0, 100% 0, 100% 100%, 0 100%)',
+            overflow: 'hidden',
           }}
         >
-          {/* Top section */}
-          <div className="px-6 pt-5 pb-3 text-center">
+          {/* Top */}
+          <div className="px-6 pt-7 pb-3 text-center">
             <div className="font-mono-jet text-xs tracking-[0.2em] uppercase mb-1" style={{ color: '#666' }}>
               Admit One
             </div>
-            <div className="font-display text-4xl tracking-wide" style={{ color: '#1A1A1A', fontSize: 'clamp(28px, 5vw, 42px)' }}>
+            <div
+              className="font-display tracking-wide"
+              style={{ color: '#1A1A1A', fontSize: 'clamp(28px, 5vw, 42px)' }}
+            >
               BILAL CURMALLY
             </div>
           </div>
 
-          {/* Perforation */}
-          <div className="ticket-perforation mx-4" />
+          {/* Perforation with edge notches */}
+          <div className="ticket-perforation mx-0 px-4" style={{ marginLeft: 0, marginRight: 0 }} />
 
-          {/* Bottom section */}
-          <div className="px-6 py-3 text-center">
+          {/* Bottom */}
+          <div className="px-6 py-4 text-center">
             <div
               className="font-mono-jet tracking-[0.15em] uppercase"
               style={{ color: '#444', fontSize: '10px' }}
             >
-              COLORIST &nbsp;·&nbsp; EDITOR &nbsp;·&nbsp; WRITER &nbsp;·&nbsp; KARACHI
+              COLORIST &nbsp;·&nbsp; EDITOR &nbsp;·&nbsp; WRITER &nbsp;·&nbsp; VIBE CODE NOOB
             </div>
           </div>
         </div>
 
         {/* Click hint */}
-        <div className="text-center mt-3 font-mono-jet" style={{ fontSize: '10px', color: '#444', letterSpacing: '0.15em' }}>
+        <div
+          className="text-center mt-3 font-mono-jet"
+          style={{ fontSize: '10px', color: '#444', letterSpacing: '0.15em' }}
+        >
           CLICK TO ENTER
         </div>
       </div>

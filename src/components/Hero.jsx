@@ -1,13 +1,12 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { useReducedMotion } from '../utils/useReducedMotion'
 
 const STATS = [
-  { value: '20+', label: 'Years' },
-  { value: '3',   label: 'Disciplines' },
-  { value: '∞',   label: 'Projects' },
+  { value: '20+',              label: 'Years' },
+  { value: 'Edit · Color · Write', label: 'The crafts' },
+  { value: '300+',             label: 'Commercials' },
 ]
 
 export default function Hero() {
@@ -15,7 +14,7 @@ export default function Hero() {
   const imageRef   = useRef(null)
   const linesRef   = useRef([])
   const scrollRef  = useRef(null)
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const prefersReduced = useReducedMotion()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -62,10 +61,9 @@ export default function Hero() {
   }, [prefersReduced])
 
   const lines = [
-    { text: "I edit your stories.",    big: true },
-    { text: "Grade your footage.",      big: true },
-    { text: "Write when needed.",       big: true },
-    { text: "And break things in Python.", big: true },
+    { text: "Not your basic storyteller." },
+    { text: "Edit \u2022 Color \u2022 Write" },
+    { text: "Weird is the point." },
   ]
 
   return (
@@ -86,7 +84,7 @@ export default function Hero() {
             style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite' }}
           />
           <span className="font-mono-jet text-xs" style={{ color: '#888', fontSize: '11px' }}>
-            Available for new projects
+            Let's connect and exchange ideas.
           </span>
         </div>
       </div>
@@ -100,7 +98,7 @@ export default function Hero() {
             className="font-heading mb-3"
             style={{ color: '#555', fontSize: '14px', letterSpacing: '0.05em' }}
           >
-            Hi, I'm Billu
+            Hi, I'm Bilal Curmally
           </p>
 
           <div className="mb-6">
@@ -121,31 +119,36 @@ export default function Hero() {
           </div>
 
           <div
-            ref={el => linesRef.current[5] = el}
+            ref={el => linesRef.current[lines.length + 1] = el}
             className="font-mono-jet"
             style={{ color: '#555', fontSize: '12px', lineHeight: 1.7, letterSpacing: '0.05em' }}
           >
-            <div>20 years. Karachi.</div>
-            <div>Currently: accepting work +</div>
-            <div>building things that shouldn't exist.</div>
+            <div>Let's connect and exchange ideas.</div>
+            <div>Building things that shouldn't exist.</div>
           </div>
         </div>
 
-        {/* Hero image — right side */}
+        {/* Hero image — right side, atmospheric ghost, not a portrait placement */}
         <div
-          className="absolute right-0 top-0 bottom-0 hidden md:block"
-          style={{ width: '42%', overflow: 'hidden' }}
+          className="absolute top-0 bottom-0 hidden md:block"
+          style={{ left: '40%', right: '-10%', overflow: 'hidden' }}
         >
           <div
             ref={imageRef}
             className="w-full h-full"
             style={{
               backgroundImage: 'url(/images/hero-portrait.jpg)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center top',
-              maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.9) 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.9) 100%)',
-              filter: 'brightness(0.55) contrast(1.1)',
+              backgroundSize: '85%',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: '60% 20%',
+              filter: 'brightness(0.16) contrast(1.1) saturate(0.5)',
+            }}
+          />
+          {/* Radial vignette — tight pool of ghost light, everything else is darkness */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 55% 50% at 55% 35%, transparent 0%, rgba(8,8,8,0.5) 30%, #080808 65%)',
             }}
           />
         </div>
@@ -161,7 +164,13 @@ export default function Hero() {
             <div className="py-4 pr-6 md:pr-10">
               <div
                 className="font-mono-jet font-medium"
-                style={{ color: '#F5F5F0', fontSize: 'clamp(20px, 3vw, 28px)' }}
+                style={{
+                  color: '#F5F5F0',
+                  fontSize: stat.value.length > 4
+                    ? 'clamp(11px, 1.2vw, 14px)'
+                    : 'clamp(20px, 3vw, 28px)',
+                  letterSpacing: stat.value.length > 4 ? '0.06em' : undefined,
+                }}
               >
                 {stat.value}
               </div>
@@ -192,16 +201,6 @@ export default function Hero() {
         />
       </div>
 
-      <style>{`
-        @keyframes scrollPulse {
-          0%, 100% { opacity: 0.3; transform: scaleY(1); }
-          50% { opacity: 1; transform: scaleY(1.15); }
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
     </section>
   )
 }

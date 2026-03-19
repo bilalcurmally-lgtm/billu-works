@@ -2,8 +2,7 @@ import { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { splitWords } from '../utils/splitText'
-
-gsap.registerPlugin(ScrollTrigger)
+import { useReducedMotion } from '../utils/useReducedMotion'
 
 const SKILLS = [
   'DaVinci Resolve', 'Premiere Pro', 'Python',
@@ -28,9 +27,9 @@ export default function About() {
   const pullRef     = useRef(null)
   const bioRef      = useRef(null)
   const tagsRef     = useRef([])
+  const prefersReduced = useReducedMotion()
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
 
     const ctx = gsap.context(() => {
@@ -81,7 +80,7 @@ export default function About() {
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [prefersReduced])
 
   return (
     <section

@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import { Instagram, Linkedin, Github, X, Menu } from 'lucide-react'
 import { useMagneticButton } from '../utils/useMagneticButton'
+import { useReducedMotion } from '../utils/useReducedMotion'
 
 gsap.registerPlugin(ScrollToPlugin)
 
@@ -20,6 +21,8 @@ export default function TicketNav() {
   const tlRef        = useRef(null)
   const isAnimating  = useRef(false)
   const magneticRef  = useMagneticButton(0.25)
+  const prefersReduced = useReducedMotion()
+  const savedScrollY = useRef(0)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
@@ -27,10 +30,22 @@ export default function TicketNav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape' && open) closeNav() }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
+
   const openNav = () => {
     if (isAnimating.current || open) return
     isAnimating.current = true
     setOpen(true)
+    // iOS Safari scroll lock: position:fixed prevents background scrolling
+    savedScrollY.current = window.scrollY
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${savedScrollY.current}px`
+    document.body.style.left = '0'
+    document.body.style.right = '0'
     document.body.style.overflow = 'hidden'
 
     gsap.set(overlayRef.current, { display: 'flex', scale: 0.85, opacity: 0, transformOrigin: 'top right' })
@@ -42,7 +57,13 @@ export default function TicketNav() {
   const closeNav = () => {
     if (isAnimating.current || !open) return
     isAnimating.current = true
+    // Restore scroll position (iOS Safari scroll lock)
+    document.body.style.position = ''
+    document.body.style.top = ''
+    document.body.style.left = ''
+    document.body.style.right = ''
     document.body.style.overflow = ''
+    window.scrollTo(0, savedScrollY.current)
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -67,7 +88,7 @@ export default function TicketNav() {
 
   return (
     <>
-      {/* Collapsed Ticket Stub */}
+      {/* Collapsed Ticket Stub — proper ticket shape with notches */}
       <div
         ref={el => { stubRef.current = el; magneticRef.current = el }}
         onClick={openNav}
@@ -75,7 +96,7 @@ export default function TicketNav() {
         style={{ opacity: open ? 0 : 1, pointerEvents: open ? 'none' : 'auto', transition: 'opacity 0.2s' }}
       >
         <div
-          className="flex items-center gap-0 rounded-xl overflow-hidden"
+          className="relative flex items-center gap-0 rounded-xl"
           style={{
             background: '#F5F0E8',
             color: '#1A1A1A',
@@ -84,6 +105,7 @@ export default function TicketNav() {
               : '0 4px 20px rgba(0,0,0,0.4)',
             backdropFilter: scrolled ? 'blur(10px)' : 'none',
             transition: 'box-shadow 0.3s ease',
+            overflow: 'hidden',
           }}
         >
           <div className="px-3 py-2">
@@ -91,14 +113,18 @@ export default function TicketNav() {
               billu.works
             </span>
           </div>
-          <div style={{ width: '1px', background: 'rgba(26,26,26,0.2)', alignSelf: 'stretch', margin: '4px 0' }} />
+          {/* Vertical perforation with notches */}
+          <div className="relative" style={{ width: '1px', alignSelf: 'stretch', borderLeft: '1px dashed rgba(26,26,26,0.25)' }}>
+            <div style={{ position: 'absolute', top: '-5px', left: '-5px', width: '10px', height: '10px', borderRadius: '50%', background: '#080808' }} />
+            <div style={{ position: 'absolute', bottom: '-5px', left: '-5px', width: '10px', height: '10px', borderRadius: '50%', background: '#080808' }} />
+          </div>
           <div className="px-3 py-2 flex items-center justify-center">
             <Menu size={14} color="#1A1A1A" strokeWidth={2} />
           </div>
         </div>
       </div>
 
-      {/* Expanded Ticket Overlay */}
+      {/* Expanded Ticket Overlay — proper ticket with notches */}
       <div
         ref={overlayRef}
         className="fixed top-0 right-0 z-[9996] hidden"
@@ -110,22 +136,27 @@ export default function TicketNav() {
           color: '#1A1A1A',
           flexDirection: 'column',
           boxShadow: '-20px 0 80px rgba(0,0,0,0.6)',
+          overflow: 'hidden',
         }}
       >
+        {/* Top notch — centered semicircle cut into top edge */}
+        <div style={{ position: 'absolute', top: '-8px', left: '50%', transform: 'translateX(-50%)', width: '16px', height: '16px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5">
+        <div className="flex items-center justify-between px-6 pt-8 pb-5">
           <span className="font-mono-jet" style={{ fontSize: '11px', letterSpacing: '0.12em', color: '#555' }}>
             billu.works
           </span>
           <button onClick={closeNav} className="p-1 hover:opacity-60 transition-opacity" aria-label="Close menu">
-            <X size={18} color="#1A1A1A" strokeWidth={1.5} />
+            <X size={20} color="#1A1A1A" strokeWidth={1.5} />
           </button>
         </div>
 
-        <div className="ticket-perforation mx-6" />
+        {/* Perforation with edge notches */}
+        <div className="ticket-perforation mx-0" />
 
         {/* Nav Links */}
-        <nav className="flex flex-col gap-1 px-6 py-6 flex-1">
+        <nav className="flex flex-col gap-2 px-6 py-8 flex-1">
           {NAV_ITEMS.map(item => (
             <button
               key={item.id}
@@ -133,17 +164,18 @@ export default function TicketNav() {
               className="flex items-baseline gap-3 group text-left py-2 hover:opacity-60 transition-opacity"
             >
               <span className="font-mono-jet text-xs" style={{ color: '#888' }}>{item.num}</span>
-              <span className="font-display" style={{ fontSize: 'clamp(32px, 6vw, 48px)', color: '#1A1A1A', letterSpacing: '0.02em' }}>
+              <span className="font-display" style={{ fontSize: 'clamp(36px, 7vw, 52px)', color: '#1A1A1A', letterSpacing: '0.02em' }}>
                 {item.label}
               </span>
             </button>
           ))}
         </nav>
 
-        <div className="ticket-perforation mx-6" />
+        {/* Perforation with edge notches */}
+        <div className="ticket-perforation mx-0" />
 
         {/* Socials */}
-        <div className="flex gap-4 px-6 py-5">
+        <div className="flex gap-5 px-6 py-5">
           {[
             { Icon: Instagram, href: 'https://instagram.com/', label: 'Instagram' },
             { Icon: Linkedin,  href: 'https://linkedin.com/',  label: 'LinkedIn' },
@@ -158,19 +190,23 @@ export default function TicketNav() {
               className="p-2 rounded-lg hover:opacity-50 transition-opacity"
               style={{ background: 'rgba(26,26,26,0.07)' }}
             >
-              <Icon size={16} color="#1A1A1A" strokeWidth={1.5} />
+              <Icon size={18} color="#1A1A1A" strokeWidth={1.5} />
             </a>
           ))}
         </div>
 
-        <div className="ticket-perforation mx-6" />
+        {/* Perforation with edge notches */}
+        <div className="ticket-perforation mx-0" />
 
         {/* Footer */}
         <div className="px-6 py-4">
           <span className="font-mono-jet" style={{ fontSize: '9px', letterSpacing: '0.15em', color: '#888' }}>
-            ©2025. BILAL CURMALLY. ALL RIGHTS RESERVED.
+            ©2026. BILAL CURMALLY. ALL RIGHTS RESERVED.
           </span>
         </div>
+
+        {/* Bottom notch */}
+        <div style={{ position: 'absolute', bottom: '-8px', left: '50%', transform: 'translateX(-50%)', width: '16px', height: '16px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
       </div>
 
       {/* Backdrop */}
