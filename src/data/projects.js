@@ -27,7 +27,7 @@ export const projects = [
     type: 'Long Form',
     image: '/images/project-uscg-bootcamp.jpg',
     gradient: 'linear-gradient(135deg, #0d2020 0%, #081414 50%, #080808 100%)',
-    url: 'https://www.youtube.com/watch?v=SOauuO9YV2g',
+    url: 'https://www.youtube.com/watch?v=uRnlxCWKoFg',
   },
   {
     id: 'oifc-bluefin',
