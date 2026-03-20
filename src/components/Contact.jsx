@@ -16,6 +16,10 @@ export default function Contact() {
   const [status, setStatus]           = useState('idle') // idle | sending | success | error
   const [submittedName, setSubmittedName] = useState('')
   const [copied, setCopied]           = useState(false)
+  const abortRef                      = useRef(null)
+
+  // Cleanup in-flight request on unmount
+  useEffect(() => () => { abortRef.current?.abort() }, [])
 
   useEffect(() => {
     if (prefersReduced) return
@@ -48,11 +52,12 @@ export default function Contact() {
     setSubmittedName(form.name)
 
     const controller = new AbortController()
+    abortRef.current = controller
     const timeout = setTimeout(() => controller.abort(), 10000)
 
     try {
-      // Replace YOUR_FORM_ID with your Formspree form ID
-      const res = await fetch('https://formspree.io/f/xlgpveaj', {
+      const formId = import.meta.env.VITE_FORMSPREE_ID || 'xlgpveaj'
+      const res = await fetch(`https://formspree.io/f/${formId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
@@ -63,6 +68,9 @@ export default function Contact() {
         setStatus('success')
         setForm({ name: '', email: '', message: '', _gotcha: '' })
       } else {
+        let errorDetail = `HTTP ${res.status}`
+        try { const body = await res.json(); errorDetail = body?.error || errorDetail } catch {}
+        console.error('Contact form error:', errorDetail)
         setStatus('error')
       }
     } catch (err) {

@@ -3,11 +3,11 @@ import { Component } from 'react'
 export default class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false }
+    this.state = { hasError: false, error: null }
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: true }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error }
   }
 
   componentDidCatch(error, info) {
@@ -44,6 +44,14 @@ export default class ErrorBoundary extends Component {
               <p className="font-body text-sm mb-4" style={{ color: '#555', lineHeight: 1.6 }}>
                 The site hit an unexpected error. Try refreshing the page.
               </p>
+              {import.meta.env.DEV && this.state.error && (
+                <pre
+                  className="font-mono-jet text-left mb-4 p-3 rounded-lg overflow-auto"
+                  style={{ fontSize: '9px', color: '#888', background: 'rgba(26,26,26,0.08)', maxHeight: '120px' }}
+                >
+                  {this.state.error.toString()}
+                </pre>
+              )}
               <button
                 onClick={() => window.location.reload()}
                 className="rounded-xl px-5 py-3 font-mono-jet text-xs tracking-widest hover:opacity-80 transition-opacity"

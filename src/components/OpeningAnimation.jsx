@@ -75,7 +75,7 @@ export default function OpeningAnimation({ onComplete }) {
       }, '+=0.25')
 
     return () => { tl.kill() }
-  }, []) // eslint-disable-line
+  }, []) // eslint-disable-line -- one-time animation, intentionally no deps
 
   return (
     <div

@@ -2,18 +2,26 @@ import { useState, useEffect, useRef } from 'react'
 
 function useTimecode() {
   const [tc, setTc] = useState('00:00:00:00')
-  const startRef = useRef(Date.now())
+  const startRef = useRef(null)
+  const rafRef = useRef(null)
 
   useEffect(() => {
-    const id = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - startRef.current) / 1000)
-      const h  = String(Math.floor(elapsed / 3600)).padStart(2, '0')
-      const m  = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0')
-      const s  = String(elapsed % 60).padStart(2, '0')
-      const f  = String(Math.floor((Date.now() % 1000) / (1000 / 24))).padStart(2, '0')
+    if (startRef.current === null) startRef.current = performance.now()
+    const start = startRef.current
+
+    const tick = (now) => {
+      const elapsedMs = now - start
+      const elapsed = Math.floor(elapsedMs / 1000)
+      const h = String(Math.floor(elapsed / 3600)).padStart(2, '0')
+      const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0')
+      const s = String(elapsed % 60).padStart(2, '0')
+      const f = String(Math.floor((elapsedMs % 1000) / (1000 / 24))).padStart(2, '0')
       setTc(`${h}:${m}:${s}:${f}`)
-    }, 1000 / 24)
-    return () => clearInterval(id)
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    rafRef.current = requestAnimationFrame(tick)
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
   }, [])
 
   return tc

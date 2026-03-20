@@ -44,6 +44,14 @@ export default function Hero() {
   const linesRef   = useRef([])
   const scrollRef  = useRef(null)
   const prefersReduced = useReducedMotion()
+  const [portraitLoaded, setPortraitLoaded] = useState(true)
+
+  // Pre-check hero portrait so we can hide the container if it 404s
+  useEffect(() => {
+    const img = new Image()
+    img.src = '/images/hero-portrait.jpg'
+    img.onerror = () => setPortraitLoaded(false)
+  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -158,7 +166,7 @@ export default function Hero() {
         </div>
 
         {/* Hero image — right side, atmospheric ghost, not a portrait placement */}
-        <div
+        {portraitLoaded && <div
           className="absolute top-0 bottom-0 hidden md:block"
           style={{ left: '40%', right: '-10%', overflow: 'hidden' }}
         >
@@ -189,7 +197,7 @@ export default function Hero() {
               background: 'radial-gradient(ellipse 55% 50% at 55% 35%, transparent 0%, rgba(8,8,8,0.5) 30%, #080808 65%)',
             }}
           />
-        </div>
+        </div>}
       </div>
 
       {/* Stats row */}

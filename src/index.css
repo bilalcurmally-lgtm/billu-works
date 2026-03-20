@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Font Loading Transition (FOUT prevention) ──────────── */
+body.fonts-loading { opacity: 0; }
+body { transition: opacity 0.3s ease; }
+
 /* ─── Base Reset ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 

@@ -61,7 +61,7 @@ export default function FilmStripProgress() {
       {/* Sprocket holes */}
       {holes.map((_, i) => {
         const y = ((i + 0.5) / holeCount) * 100
-        const isFilled = (i / holeCount) < progress
+        const isFilled = (i / holeCount) <= progress
         return (
           <div
             key={i}

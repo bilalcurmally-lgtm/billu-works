@@ -62,6 +62,24 @@
 - [x] ScrollToTop.jsx — ticket-styled button, bottom-right, IO-driven visibility
 - [x] Animated stat counters in Hero (GSAP count-up, reduced-motion aware)
 
+## Completed (Session 5 — Full Project Audit)
+
+- [x] Footer timecode: setInterval → requestAnimationFrame (CPU optimization)
+- [x] Contact form: Formspree ID → env var (VITE_FORMSPREE_ID)
+- [x] Contact form: try-catch JSON parse on error response
+- [x] Contact form: AbortController cleanup on unmount
+- [x] Work image error: retry mechanism (2 retries before gradient fallback)
+- [x] ErrorBoundary: show error details in dev mode
+- [x] FilmStripProgress: off-by-one boundary fix (< → <=)
+- [x] Hero portrait: onError handler hides container gracefully
+- [x] Security headers in vercel.json (X-Frame-Options, X-Content-Type-Options, etc.)
+- [x] Font loading transition (FOUT prevention via fonts-loading class)
+- [x] Preloader.jsx — film-leader progress bar, waits for fonts + hero portrait, 5s timeout
+- [x] ProjectLightbox.jsx — cinema-styled overlay with project details + Watch CTA
+- [x] Project card video thumbnail on hover (YouTube, desktop-only)
+- [x] Project cards: <a> → <div> with lightbox click handler + keyboard support
+- [x] .env.example for Formspree ID documentation
+
 ## P2 — Pre-Launch Blockers
 
 ### og-card.jpg for social sharing
@@ -117,3 +135,13 @@
 **What:** Move `inputStyle` object in Contact.jsx from inside the render function to module-level.
 **Why:** Static object recreated every render. Tiny perf + cleaner code.
 **Effort:** S | **Depends on:** None
+
+### Error tracking service (Sentry)
+**What:** Add lightweight error tracking (Sentry free tier) to catch JS crashes in production.
+**Why:** ErrorBoundary logs to console but nobody sees it. Need production visibility.
+**Effort:** S | **Depends on:** Bilal creating Sentry account
+
+### Performance budget monitoring (Vercel Web Vitals)
+**What:** Enable Vercel's built-in Web Vitals tracking after deployment.
+**Why:** Catch performance regressions from content changes or dependency updates.
+**Effort:** S | **Depends on:** Vercel deployment being active

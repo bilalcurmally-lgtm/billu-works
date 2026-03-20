@@ -4,12 +4,30 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowUpRight } from 'lucide-react'
 import { projects } from '../data/projects'
 import { useReducedMotion } from '../utils/useReducedMotion'
+import { useIsTouch } from '../utils/useIsTouch'
+import ProjectLightbox from './ProjectLightbox'
 
-function ProjectCard({ project, index, prefersReduced }) {
+/**
+ * Extract a video thumbnail URL from Vimeo/YouTube URLs.
+ * Uses known URL patterns — no API calls needed.
+ */
+function getVideoThumb(url) {
+  if (!url || url === '#') return null
+  // YouTube
+  const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/)
+  if (ytMatch) return `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`
+  // Vimeo — can't generate thumbnail without API, return null
+  return null
+}
+
+function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }) {
   const cardRef    = useRef(null)
   const metaRef    = useRef(null)
   const overlayRef = useRef(null)
   const [imgError, setImgError] = useState(false)
+  const [imgRetries, setImgRetries] = useState(0)
+  const [showVideoThumb, setShowVideoThumb] = useState(false)
+  const videoThumb = getVideoThumb(project.url)
 
   useEffect(() => {
     if (prefersReduced) return
@@ -20,10 +38,12 @@ function ProjectCard({ project, index, prefersReduced }) {
     const onEnter = () => {
       gsap.to(overlayRef.current, { opacity: 0.45, duration: 0.4, ease: 'power2.out' })
       gsap.to(meta, { y: -6, duration: 0.4, ease: 'power2.out' })
+      if (videoThumb && !isTouch) setShowVideoThumb(true)
     }
     const onLeave = () => {
       gsap.to(overlayRef.current, { opacity: 0.7, duration: 0.4, ease: 'power2.out' })
       gsap.to(meta, { y: 0, duration: 0.4, ease: 'power2.out' })
+      setShowVideoThumb(false)
     }
 
     card.addEventListener('mouseenter', onEnter)
@@ -32,41 +52,64 @@ function ProjectCard({ project, index, prefersReduced }) {
       card.removeEventListener('mouseenter', onEnter)
       card.removeEventListener('mouseleave', onLeave)
     }
-  }, [prefersReduced])
+  }, [prefersReduced, isTouch, videoThumb])
 
-  const showGradient = imgError || !project.image
-
-  const isPlaceholder = project.url === '#'
+  const showGradient = (imgError && imgRetries >= 2) || !project.image
 
   return (
-    <a
+    <div
       ref={cardRef}
-      href={project.url}
-      target={isPlaceholder ? undefined : '_blank'}
-      rel={isPlaceholder ? undefined : 'noopener noreferrer'}
-      onClick={e => { if (isPlaceholder) e.preventDefault() }}
-      className="relative w-full overflow-hidden rounded-2xl block group project-card"
+      onClick={(e) => { e.preventDefault(); onOpenLightbox(project) }}
+      className="relative w-full overflow-hidden rounded-2xl block group project-card cursor-pointer"
       data-cursor="project"
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpenLightbox(project) } }}
+      aria-label={`View ${project.title} project details`}
       style={{
         height: 'clamp(340px, 55vh, 560px)',
         background: showGradient ? project.gradient : '#111111',
         textDecoration: 'none',
       }}
     >
-      {/* Project image — lazy loaded, with gradient fallback on error */}
+      {/* Project image — lazy loaded, with gradient fallback after 2 retries */}
       {!showGradient && (
         <img
-          src={project.image}
+          src={imgError ? `${project.image}?retry=${imgRetries}` : project.image}
           alt={`${project.title} project`}
           loading="lazy"
           width={1200}
           height={675}
-          onError={() => setImgError(true)}
+          onError={() => {
+            if (imgRetries < 2) {
+              setImgError(false)
+              setImgRetries(r => r + 1)
+              setTimeout(() => setImgError(true), 100)
+            } else {
+              setImgError(true)
+            }
+          }}
           className="absolute inset-0 w-full h-full"
           style={{
             objectFit: 'cover',
             objectPosition: 'center',
             filter: 'brightness(0.45) contrast(1.05)',
+          }}
+        />
+      )}
+
+      {/* Video thumbnail crossfade on hover (desktop only) */}
+      {videoThumb && showVideoThumb && (
+        <img
+          src={videoThumb}
+          alt=""
+          className="absolute inset-0 w-full h-full"
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'center',
+            filter: 'brightness(0.5) contrast(1.05)',
+            opacity: 0.85,
+            transition: 'opacity 0.4s ease',
           }}
         />
       )}
@@ -118,7 +161,7 @@ function ProjectCard({ project, index, prefersReduced }) {
           </span>
         </div>
       </div>
-    </a>
+    </div>
   )
 }
 
@@ -127,6 +170,8 @@ export default function Work() {
   const headerRef  = useRef(null)
   const wrapperRefs = useRef([])   // refs to the wrapper divs (for GSAP stacking)
   const prefersReduced = useReducedMotion()
+  const isTouch = useIsTouch()
+  const [lightboxProject, setLightboxProject] = useState(null)
 
   useEffect(() => {
     if (prefersReduced) return
@@ -243,12 +288,21 @@ export default function Work() {
               project={project}
               index={i}
               prefersReduced={prefersReduced}
+              isTouch={isTouch}
+              onOpenLightbox={setLightboxProject}
             />
           </div>
         ))}
       </div>
 
       <div className="film-strip w-full mt-12" />
+
+      {lightboxProject && (
+        <ProjectLightbox
+          project={lightboxProject}
+          onClose={() => setLightboxProject(null)}
+        />
+      )}
     </section>
   )
 }

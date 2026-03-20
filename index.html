@@ -38,8 +38,12 @@
     <!-- Analytics placeholder — replace with your Plausible/Fathom snippet -->
     <!-- <script defer data-domain="billu.works" src="https://plausible.io/js/script.js"></script> -->
   </head>
-  <body>
+  <body class="fonts-loading">
     <div id="root"></div>
+    <script>
+      // Remove fonts-loading class once all custom fonts are ready (prevents FOUT)
+      document.fonts.ready.then(function() { document.body.classList.remove('fonts-loading') })
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
+import Preloader        from './components/Preloader'
 import OpeningAnimation from './components/OpeningAnimation'
 import TicketNav        from './components/TicketNav'
 import Hero             from './components/Hero'
@@ -36,6 +37,7 @@ function shouldSkipIntro() {
 }
 
 export default function App() {
+  const [preloadComplete, setPreloadComplete] = useState(() => shouldSkipIntro())
   const [introComplete, setIntroComplete] = useState(() => shouldSkipIntro())
   const sectionsRef = useRef([])
   const prefersReduced = useReducedMotion()
@@ -98,6 +100,10 @@ export default function App() {
   // 404 — unknown paths get the "FILM NOT FOUND" page
   if (!isKnownPath()) {
     return <NotFound />
+  }
+
+  if (!preloadComplete) {
+    return <Preloader onComplete={() => setPreloadComplete(true)} />
   }
 
   if (!introComplete) {
