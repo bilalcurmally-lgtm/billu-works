@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Instagram, Linkedin, Github, Send } from 'lucide-react'
+import { Send } from 'lucide-react'
 import { useMagneticButton } from '../utils/useMagneticButton'
 import { useReducedMotion } from '../utils/useReducedMotion'
 
@@ -15,6 +15,7 @@ export default function Contact() {
   const [form, setForm]               = useState({ name: '', email: '', message: '', _gotcha: '' })
   const [status, setStatus]           = useState('idle') // idle | sending | success | error
   const [submittedName, setSubmittedName] = useState('')
+  const [copied, setCopied]           = useState(false)
 
   useEffect(() => {
     if (prefersReduced) return
@@ -45,21 +46,43 @@ export default function Contact() {
 
     setStatus('sending')
     setSubmittedName(form.name)
+
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 10000)
+
     try {
       // Replace YOUR_FORM_ID with your Formspree form ID
-      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      const res = await fetch('https://formspree.io/f/xlgpveaj', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
+        signal: controller.signal,
       })
+      clearTimeout(timeout)
       if (res.ok) {
         setStatus('success')
         setForm({ name: '', email: '', message: '', _gotcha: '' })
       } else {
         setStatus('error')
       }
-    } catch {
+    } catch (err) {
+      clearTimeout(timeout)
+      console.error('Contact form error:', err)
       setStatus('error')
+    }
+  }
+
+  const handleRetry = () => setStatus('idle')
+
+  const copyEmail = async () => {
+    const email = 'billu.curmally@gmail.com'
+    try {
+      await navigator.clipboard.writeText(email)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback: prompt user to copy manually
+      window.prompt('Copy this email address:', email)
     }
   }
 
@@ -87,16 +110,13 @@ export default function Contact() {
         {/* Headline */}
         <div ref={headRef} className="mb-16 text-center">
           <h2 className="font-heading font-light" style={{ fontSize: 'clamp(32px, 5vw, 56px)', color: '#F5F5F0', lineHeight: 1.2, margin: 0 }}>
-            Let's make something
-          </h2>
-          <h2 className="font-heading font-light" style={{ fontSize: 'clamp(32px, 5vw, 56px)', color: '#F5F5F0', lineHeight: 1.2, margin: 0 }}>
-            worth
+            Drop me a line.
           </h2>
           <div
             className="font-drama italic"
             style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', color: '#F5F0E8', lineHeight: 1.15 }}
           >
-            watching.
+            Let's ramble together.
           </div>
         </div>
 
@@ -193,10 +213,37 @@ export default function Contact() {
 
                 <div className="ticket-perforation mt-1" />
 
+                {/* Error state with retry */}
+                {status === 'error' && (
+                  <div className="flex items-center justify-between rounded-lg px-4 py-3" style={{ background: 'rgba(26,26,26,0.08)' }}>
+                    <span className="font-mono-jet" style={{ fontSize: '10px', color: '#666' }}>
+                      Send failed — try{' '}
+                      <button type="button" onClick={copyEmail} className="underline hover:opacity-70" style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', font: 'inherit' }}>
+                        {copied ? 'COPIED!' : 'billu.curmally@gmail.com'}
+                      </button>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleRetry}
+                      className="font-mono-jet text-xs tracking-widest px-3 py-1.5 rounded-lg transition-opacity hover:opacity-70"
+                      style={{ background: '#1A1A1A', color: '#F5F0E8', fontSize: '10px', border: 'none', cursor: 'pointer' }}
+                    >
+                      RETRY
+                    </button>
+                  </div>
+                )}
+
                 {/* Submit */}
                 <div className="flex items-center justify-between pt-1">
                   <span className="font-mono-jet text-xs" style={{ color: '#aaa', fontSize: '10px' }}>
-                    {status === 'error' ? '⚠ Send failed — try bilal@billu.works' : 'Or email: bilal@billu.works'}
+                    {status !== 'error' && (
+                      <>
+                        Or email:{' '}
+                        <button type="button" onClick={copyEmail} className="underline hover:opacity-70" style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', font: 'inherit' }}>
+                          {copied ? 'COPIED!' : 'billu.curmally@gmail.com'}
+                        </button>
+                      </>
+                    )}
                   </span>
                   <div ref={btnRef}>
                     <button
@@ -221,27 +268,6 @@ export default function Contact() {
           )}
         </div>
 
-        {/* Social links */}
-        <div className="flex justify-center gap-5 mt-10">
-          {[
-            { Icon: Instagram, href: 'https://instagram.com/', label: 'Instagram' },
-            { Icon: Linkedin,  href: 'https://linkedin.com/',  label: 'LinkedIn' },
-            { Icon: Github,    href: 'https://github.com/',    label: 'GitHub' },
-          ].map(({ Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="font-mono-jet text-xs flex items-center gap-1.5 hover:opacity-100 transition-opacity"
-              style={{ color: '#444', fontSize: '11px', letterSpacing: '0.1em' }}
-            >
-              <Icon size={13} strokeWidth={1.5} />
-              {label}
-            </a>
-          ))}
-        </div>
 
       </div>
     </section>

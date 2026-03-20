@@ -5,21 +5,25 @@ import { splitWords } from '../utils/splitText'
 import { useReducedMotion } from '../utils/useReducedMotion'
 
 const SKILLS = [
-  'DaVinci Resolve', 'Premiere Pro', 'Python',
-  'After Effects', 'DCTL', 'AI Workflows',
-  'Final Cut', 'Audition',
+  'DaVinci Resolve', 'Premiere Pro', 'Final Cut', 'AI Workflows',
+]
+
+const BIO_PARAGRAPHS = [
+  'For two decades I\u2019ve been in the trenches of the Pakistani TVC industry \u2014 handling all kinds of projects, all kinds of clients, all kinds of impossible deadlines.',
+  'Now I\u2019m setting my sights beyond the borders and the editing timeline. I\u2019m trying to mix my creative rambling and a life long bucket list to build things into a new avenue.',
 ]
 
 const BIO_LINES = [
-  '20 years in post-production.',
-  'Karachi-based. Internationally minded.',
-  'I grade on DaVinci Resolve.',
-  'I edit on Premiere and Resolve.',
-  'I write in plain English.',
-  'I code in Python (badly, but improving).',
-  'I build AI tools that make my own workflow',
-  'faster — and sometimes sell them to people',
-  'who have the same problems.',
+  'Based in Karachi. Thinking global.',
+  'DaVinci Resolve is home for color.',
+  'Premiere & Resolve for the edit.',
+  'Plain words for the rest.',
+  'And slowly \u2014 very slowly \u2014 overcoming the anxiety of working in the CLI.',
+]
+
+const BIO_FOOTER = [
+  'Vibe-coded this entire portfolio myself \u2014 my first real vibe-coding project.',
+  'Still figuring out Python, but as always, I\u2019ll find a way.',
 ]
 
 export default function About() {
@@ -92,23 +96,16 @@ export default function About() {
 
         {/* Section label */}
         <div className="mb-16 flex items-center gap-4">
-          <span className="font-display text-sm tracking-widest" style={{ color: '#444', fontSize: '14px' }}>
+          <span className="font-display text-sm tracking-widest" style={{ color: '#666', fontSize: '14px' }}>
             ABOUT
           </span>
           <div style={{ flex: 1, height: '1px', background: '#1a1a1a' }} />
         </div>
 
-        {/* Contrasting statement */}
-        <p
-          className="font-heading mb-4"
-          style={{ color: '#555', fontSize: 'clamp(14px, 1.5vw, 18px)', lineHeight: 1.6 }}
-        >
-          Most editors deliver footage.
-        </p>
-
+        {/* Greeting */}
         <div
           ref={pullRef}
-          className="font-drama italic mb-16"
+          className="font-drama italic mb-12"
           style={{
             fontSize: 'clamp(32px, 5vw, 64px)',
             color: '#F5F5F0',
@@ -116,13 +113,28 @@ export default function About() {
             letterSpacing: '-0.01em',
           }}
         >
-          I deliver the feeling you wanted it to have.
+          Hey, Bilal here.
         </div>
 
-        {/* Bio */}
+        {/* Bio paragraphs */}
         <div
           ref={bioRef}
-          className="font-body mb-16"
+          className="font-body mb-10"
+          style={{
+            color: '#999',
+            fontSize: 'clamp(15px, 1.4vw, 18px)',
+            lineHeight: 1.8,
+            maxWidth: '640px',
+          }}
+        >
+          {BIO_PARAGRAPHS.map((para, i) => (
+            <p key={i} className="bio-line" style={{ marginBottom: '1.2em' }}>{para}</p>
+          ))}
+        </div>
+
+        {/* Structured lines */}
+        <div
+          className="font-body mb-10"
           style={{
             color: '#999',
             fontSize: 'clamp(15px, 1.4vw, 18px)',
@@ -132,6 +144,22 @@ export default function About() {
         >
           {BIO_LINES.map((line, i) => (
             <span key={i} className="bio-line" style={{ display: 'block' }}>{line}</span>
+          ))}
+        </div>
+
+        {/* Footer note */}
+        <div
+          className="font-body mb-16"
+          style={{
+            color: '#777',
+            fontSize: 'clamp(14px, 1.3vw, 16px)',
+            lineHeight: 1.8,
+            maxWidth: '640px',
+            fontStyle: 'italic',
+          }}
+        >
+          {BIO_FOOTER.map((line, i) => (
+            <span key={i} style={{ display: 'block' }}>{line}</span>
           ))}
         </div>
 

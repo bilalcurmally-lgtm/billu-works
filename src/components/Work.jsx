@@ -59,6 +59,8 @@ function ProjectCard({ project, index, prefersReduced }) {
           src={project.image}
           alt={`${project.title} project`}
           loading="lazy"
+          width={1200}
+          height={675}
           onError={() => setImgError(true)}
           className="absolute inset-0 w-full h-full"
           style={{
@@ -103,9 +105,9 @@ function ProjectCard({ project, index, prefersReduced }) {
         className="absolute bottom-7 left-7 font-mono-jet"
         style={{ fontSize: '11px', color: '#888', lineHeight: 2, letterSpacing: '0.08em' }}
       >
-        <div><span style={{ color: '#444' }}>CLIENT ————</span>{' '}<span style={{ color: '#ccc' }}>{project.client}</span></div>
-        {project.year && <div><span style={{ color: '#444' }}>YEAR ——————</span>{' '}<span style={{ color: '#ccc' }}>{project.year}</span></div>}
-        <div><span style={{ color: '#444' }}>TYPE ———————</span>{' '}<span style={{ color: '#ccc' }}>{project.type}</span></div>
+        <div><span style={{ color: '#666' }}>CLIENT ————</span>{' '}<span style={{ color: '#ccc' }}>{project.client}</span></div>
+        {project.year && <div><span style={{ color: '#666' }}>YEAR ——————</span>{' '}<span style={{ color: '#ccc' }}>{project.year}</span></div>}
+        <div><span style={{ color: '#666' }}>TYPE ———————</span>{' '}<span style={{ color: '#ccc' }}>{project.type}</span></div>
       </div>
 
       {/* Mini ticket stub on hover/focus */}
@@ -162,8 +164,8 @@ export default function Work() {
         if (nextWrapper) {
           gsap.to(wrapper, {
             scale: 0.95,
-            filter: 'blur(5px)',
-            opacity: 0.5,
+            filter: 'blur(8px)',
+            opacity: 0.6,
             ease: 'none',
             scrollTrigger: {
               trigger: nextWrapper,

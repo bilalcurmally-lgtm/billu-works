@@ -15,7 +15,10 @@
       "Bash(npx playwright:*)",
       "Bash(ls:*)",
       "mcp__plugin_playwright_playwright__browser_wait_for",
-      "WebFetch(domain:vimeo.com)"
+      "WebFetch(domain:vimeo.com)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Skill(qa)"
     ]
   }
 }

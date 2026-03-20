@@ -15,8 +15,15 @@ import ErrorBoundary    from './components/ErrorBoundary'
 import CustomCursor     from './components/CustomCursor'
 import FilmStripProgress from './components/FilmStripProgress'
 import KonamiEasterEgg  from './components/KonamiEasterEgg'
+import ScrollToTop      from './components/ScrollToTop'
+import NotFound         from './components/NotFound'
 import { useReducedMotion } from './utils/useReducedMotion'
 import { useIsTouch }       from './utils/useIsTouch'
+
+function isKnownPath() {
+  const path = window.location.pathname
+  return path === '/' || path === '/index.html'
+}
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
@@ -88,19 +95,30 @@ export default function App() {
     }
   }, [introComplete, prefersReduced, isTouch])
 
+  // 404 — unknown paths get the "FILM NOT FOUND" page
+  if (!isKnownPath()) {
+    return <NotFound />
+  }
+
   if (!introComplete) {
     return <OpeningAnimation onComplete={() => setIntroComplete(true)} />
   }
 
   return (
     <ErrorBoundary>
+      {/* Skip to content — visible on Tab */}
+      <a href="#main-content" className="skip-to-content">
+        SKIP TO CONTENT
+      </a>
+
       <TicketNav />
       <TimecodeDisplay />
       <CustomCursor />
       <FilmStripProgress />
       <KonamiEasterEgg />
+      <ScrollToTop />
 
-      <main>
+      <main id="main-content">
         <div ref={el => sectionsRef.current[0] = el} data-scroll="stack" style={{ position: 'relative', zIndex: 1, background: '#080808', willChange: 'transform, filter, opacity' }}>
           <Hero />
         </div>

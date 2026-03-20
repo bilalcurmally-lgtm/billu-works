@@ -1,6 +1,6 @@
 # billu.works — TODOS
 
-## Completed (Sessions 1–3)
+## Completed (Sessions 1–4)
 
 - [x] Vite + React 19 + Tailwind v3.4 scaffold
 - [x] Google Fonts in index.html (Bebas Neue, Inter, JetBrains Mono, Cormorant Garamond)
@@ -47,6 +47,20 @@
 - [x] KonamiEasterEgg.jsx — Konami code triggers "Director's Cut" overlay
 - [x] Playwright E2E test suite (8 test files)
 - [x] GitHub Actions CI (Playwright + Lighthouse)
+- [x] Spec alignment: Work blur 5→8px, opacity 0.5→0.6, Footer radius 24→32px
+- [x] Smooth scroll: scroll-behavior: smooth on html
+- [x] Theme-color meta tag in index.html
+- [x] Contrast bump: body text #999, labels #777 (WCAG AA)
+- [x] Grey scale tokens in tailwind.config.js
+- [x] Image optimization: width/height on project card imgs
+- [x] Contact form: AbortController 10s timeout, retry button, error state polish
+- [x] Copy-to-clipboard on email (Contact.jsx)
+- [x] Print stylesheet (@media print in index.css)
+- [x] Custom 404 page: "FILM NOT FOUND" ticket stub (NotFound.jsx)
+- [x] Skip-to-content link + focus-visible form rings
+- [x] TicketNav: Notch helper component, nav active state (IntersectionObserver)
+- [x] ScrollToTop.jsx — ticket-styled button, bottom-right, IO-driven visibility
+- [x] Animated stat counters in Hero (GSAP count-up, reduced-motion aware)
 
 ## P2 — Pre-Launch Blockers
 
@@ -70,6 +84,11 @@
 **Why:** Current copy is placeholder — needs Bilal's voice.
 **Effort:** S | **Depends on:** Bilal writing/approving copy
 
+### Post-deploy Lighthouse audit
+**What:** Run Lighthouse against the deployed site to verify performance/accessibility scores.
+**Why:** CI has Lighthouse configured but hasn't run against the live site yet. Need to verify thresholds pass.
+**Effort:** S | **Depends on:** Deploying this polish pass
+
 ## P2 — Post-Launch (content-dependent)
 
 ### Writing Section
@@ -88,3 +107,13 @@
 **What:** Extract social URLs into `src/data/socials.js` and import from both TicketNav and Contact.
 **Why:** DRY — both components hardcode the same URLs.
 **Effort:** S | **Depends on:** Real social URLs set first
+
+### Remove TICKET_CLIP dead code
+**What:** Delete unused `TICKET_CLIP` constant from TicketNav.jsx (was lines 26-40, now removed by Notch refactor).
+**Why:** Dead code. Already cleaned up in Session 4 Notch refactor.
+**Effort:** S | **Status:** Done — removed during TicketNav rewrite
+
+### Move inputStyle to module-level constant
+**What:** Move `inputStyle` object in Contact.jsx from inside the render function to module-level.
+**Why:** Static object recreated every render. Tiny perf + cleaner code.
+**Effort:** S | **Depends on:** None

@@ -161,7 +161,7 @@ export default function OpeningAnimation({ onComplete }) {
               className="font-mono-jet tracking-[0.15em] uppercase"
               style={{ color: '#444', fontSize: '10px' }}
             >
-              COLORIST &nbsp;·&nbsp; EDITOR &nbsp;·&nbsp; WRITER &nbsp;·&nbsp; VIBE CODE NOOB
+              EDITOR &nbsp;·&nbsp; WRITER &nbsp;·&nbsp; COLORIST &nbsp;·&nbsp; VIBE CODE NOOB
             </div>
           </div>
         </div>

@@ -1,13 +1,42 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '../utils/useReducedMotion'
 
 const STATS = [
-  { value: '20+',              label: 'Years' },
-  { value: 'Edit · Color · Write', label: 'The crafts' },
-  { value: '300+',             label: 'Commercials' },
+  { value: '20+',              label: 'Years',        numeric: 20, suffix: '+' },
+  { value: 'Edit · Color · Write', label: 'The crafts', numeric: null },
+  { value: '300+',             label: 'Commercials',  numeric: 300, suffix: '+' },
 ]
+
+function AnimatedStat({ stat, prefersReduced }) {
+  const ref = useRef(null)
+  const [display, setDisplay] = useState(prefersReduced ? stat.value : '0' + (stat.suffix || ''))
+  const animated = useRef(false)
+
+  useEffect(() => {
+    if (prefersReduced || !stat.numeric || animated.current || !ref.current) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !animated.current) {
+        animated.current = true
+        const obj = { val: 0 }
+        gsap.to(obj, {
+          val: stat.numeric,
+          duration: 1.2,
+          ease: 'power2.out',
+          onUpdate: () => setDisplay(Math.round(obj.val) + (stat.suffix || '')),
+        })
+        observer.disconnect()
+      }
+    }, { threshold: 0.5 })
+
+    observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [prefersReduced, stat])
+
+  return <span ref={ref}>{stat.numeric ? display : stat.value}</span>
+}
 
 export default function Hero() {
   const sectionRef = useRef(null)
@@ -75,7 +104,7 @@ export default function Hero() {
     >
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 md:px-12 pt-7">
-        <span className="font-heading text-sm tracking-tight" style={{ color: '#555' }}>
+        <span className="font-heading text-sm tracking-tight" style={{ color: '#777' }}>
           billu.works
         </span>
         <div className="flex items-center gap-2">
@@ -96,7 +125,7 @@ export default function Hero() {
           <p
             ref={el => linesRef.current[0] = el}
             className="font-heading mb-3"
-            style={{ color: '#555', fontSize: '14px', letterSpacing: '0.05em' }}
+            style={{ color: '#777', fontSize: '14px', letterSpacing: '0.05em' }}
           >
             Hi, I'm Bilal Curmally
           </p>
@@ -121,7 +150,7 @@ export default function Hero() {
           <div
             ref={el => linesRef.current[lines.length + 1] = el}
             className="font-mono-jet"
-            style={{ color: '#555', fontSize: '12px', lineHeight: 1.7, letterSpacing: '0.05em' }}
+            style={{ color: '#999', fontSize: '12px', lineHeight: 1.7, letterSpacing: '0.05em' }}
           >
             <div>Let's connect and exchange ideas.</div>
             <div>Building things that shouldn't exist.</div>
@@ -141,7 +170,16 @@ export default function Hero() {
               backgroundSize: '85%',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: '60% 20%',
-              filter: 'brightness(0.16) contrast(1.1) saturate(0.5)',
+              filter: 'brightness(0.22) contrast(1.1) saturate(0.5)',
+            }}
+          />
+          {/* Film grain overlay on portrait */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E\")",
+              opacity: 0.12,
+              mixBlendMode: 'overlay',
             }}
           />
           {/* Radial vignette — tight pool of ghost light, everything else is darkness */}
@@ -172,9 +210,9 @@ export default function Hero() {
                   letterSpacing: stat.value.length > 4 ? '0.06em' : undefined,
                 }}
               >
-                {stat.value}
+                <AnimatedStat stat={stat} prefersReduced={prefersReduced} />
               </div>
-              <div className="font-mono-jet mt-0.5" style={{ color: '#555', fontSize: '11px', letterSpacing: '0.1em' }}>
+              <div className="font-mono-jet mt-0.5" style={{ color: '#777', fontSize: '11px', letterSpacing: '0.1em' }}>
                 {stat.label}
               </div>
             </div>

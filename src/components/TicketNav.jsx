@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
-import { Instagram, Linkedin, Github, X } from 'lucide-react'
+import { X } from 'lucide-react'
 import { useMagneticButton } from '../utils/useMagneticButton'
 import { useReducedMotion } from '../utils/useReducedMotion'
 
@@ -13,37 +13,41 @@ const NAV_ITEMS = [
   { num: '03', label: 'CONTACT', id: 'contact' },
 ]
 
-/* ── Collapsed ticket stub ──────────────────────────────────
-   Wide horizontal cinema ticket with:
-   - Left: avatar + "billu.works"
-   - Center: vertical dashed perforation with edge notches
-   - Right: hamburger icon
-   - Bottom metadata row
-   - Corner notches (clip-path)
+/* ── Notch helper ─────────────────────────────────────────
+   Semicircle that bites into ticket edges. Reduces 16 inline-styled
+   divs to clean declarative usage: <Notch top left size={12} />
    ─────────────────────────────────────────────────────────── */
+function Notch({ top, left, size = 12, z = 2 }) {
+  const half = size / 2
+  return (
+    <div style={{
+      position: 'absolute',
+      [top !== undefined ? 'top' : 'bottom']: `-${half}px`,
+      [left !== undefined ? 'left' : 'right']: `-${half}px`,
+      width: `${size}px`,
+      height: `${size}px`,
+      borderRadius: '50%',
+      background: '#080808',
+      zIndex: z,
+    }} />
+  )
+}
 
-/* clip-path with semicircle notches at all 4 corners */
-const TICKET_CLIP = `
-  path('
-    M 12 0
-    L calc(100% - 12px) 0
-    A 12 12 0 0 0 calc(100% - 12px) 0
-    Q 100% 0 100% 12
-    L 100% calc(100% - 12px)
-    Q 100% 100% calc(100% - 12px) 100%
-    L 12 100%
-    Q 0 100% 0 calc(100% - 12px)
-    L 0 12
-    Q 0 0 12 0
-    Z
-  ')
-`
-
-/* Simpler approach: use pseudo-elements for corner notches */
+/* ── Perforation with edge notches ────────────────────────── */
+function Perforation({ size = 14, children }) {
+  return (
+    <div className="relative mx-0" style={{ borderTop: '2px dashed rgba(26,26,26,0.3)' }}>
+      <Notch top left size={size} />
+      <Notch top size={size} /> {/* right */}
+      {children}
+    </div>
+  )
+}
 
 export default function TicketNav() {
   const [open, setOpen]     = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState(null)
   const stubRef      = useRef(null)
   const overlayRef   = useRef(null)
   const tlRef        = useRef(null)
@@ -56,6 +60,26 @@ export default function TicketNav() {
     const onScroll = () => setScrolled(window.scrollY > 80)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Track active section via IntersectionObserver
+  useEffect(() => {
+    const sections = NAV_ITEMS.map(item => document.getElementById(item.id)).filter(Boolean)
+    if (sections.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    sections.forEach(s => observer.observe(s))
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
@@ -137,17 +161,16 @@ export default function TicketNav() {
             borderRadius: '4px',
           }}
         >
-          {/* Corner notches — 4 semicircles eating into the ticket corners */}
-          <div style={{ position: 'absolute', top: '-6px', left: '-6px', width: '12px', height: '12px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
-          <div style={{ position: 'absolute', top: '-6px', right: '-6px', width: '12px', height: '12px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
-          <div style={{ position: 'absolute', bottom: '-6px', left: '-6px', width: '12px', height: '12px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
-          <div style={{ position: 'absolute', bottom: '-6px', right: '-6px', width: '12px', height: '12px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
+          {/* Corner notches */}
+          <Notch top left />
+          <Notch top />
+          <Notch left />
+          <Notch />
 
           {/* Top row: avatar + text | perforation | hamburger */}
           <div className="flex items-center" style={{ minWidth: '220px' }}>
             {/* Left: avatar + label */}
             <div className="flex items-center gap-2.5 px-4 py-2.5">
-              {/* Small avatar/thumbnail */}
               <div
                 className="rounded overflow-hidden flex-shrink-0"
                 style={{ width: '32px', height: '32px', background: '#333' }}
@@ -155,6 +178,8 @@ export default function TicketNav() {
                 <img
                   src="/images/hero-portrait.jpg"
                   alt=""
+                  width={32}
+                  height={32}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)' }}
                 />
               </div>
@@ -166,10 +191,8 @@ export default function TicketNav() {
             {/* Vertical perforation with edge notches */}
             <div className="relative self-stretch" style={{ width: '1px' }}>
               <div style={{ position: 'absolute', top: 0, bottom: 0, left: '0', borderLeft: '2px dashed rgba(26,26,26,0.25)' }} />
-              {/* Top notch biting into ticket edge */}
-              <div style={{ position: 'absolute', top: '-6px', left: '-6px', width: '12px', height: '12px', borderRadius: '50%', background: '#080808', zIndex: 3 }} />
-              {/* Bottom notch biting into ticket edge */}
-              <div style={{ position: 'absolute', bottom: '-6px', left: '-6px', width: '12px', height: '12px', borderRadius: '50%', background: '#080808', zIndex: 3 }} />
+              <Notch top left z={3} />
+              <Notch left z={3} /> {/* bottom-left */}
             </div>
 
             {/* Right: hamburger */}
@@ -182,7 +205,7 @@ export default function TicketNav() {
             </div>
           </div>
 
-          {/* Bottom metadata row — separated by thin border */}
+          {/* Bottom metadata row */}
           <div
             className="flex items-center font-mono-jet"
             style={{ borderTop: '1px solid rgba(26,26,26,0.12)', fontSize: '9px', letterSpacing: '0.12em', color: '#888' }}
@@ -202,8 +225,6 @@ export default function TicketNav() {
 
       {/* ═══════════════════════════════════════════════════════════
           EXPANDED TICKET CARD
-          NOT a side panel — a floating ticket card that scales
-          from the stub position (transform-origin: top right).
           ═══════════════════════════════════════════════════════════ */}
       <div
         ref={overlayRef}
@@ -220,13 +241,13 @@ export default function TicketNav() {
           overflow: 'visible',
         }}
       >
-        {/* Corner notches — 4 semicircles on the ticket corners */}
-        <div style={{ position: 'absolute', top: '-7px', left: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
-        <div style={{ position: 'absolute', top: '-7px', right: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
-        <div style={{ position: 'absolute', bottom: '-7px', left: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
-        <div style={{ position: 'absolute', bottom: '-7px', right: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808', zIndex: 2 }} />
+        {/* Corner notches */}
+        <Notch top left size={14} />
+        <Notch top size={14} />
+        <Notch left size={14} />
+        <Notch size={14} />
 
-        {/* Header — billu.works left, close button right */}
+        {/* Header */}
         <div className="flex items-center justify-between px-7 pt-7 pb-5">
           <span className="font-mono-jet" style={{ fontSize: '11px', letterSpacing: '0.12em', color: '#888' }}>
             billu.works
@@ -240,12 +261,8 @@ export default function TicketNav() {
           </button>
         </div>
 
-        {/* Perforation — dashed line with hanging circle dot at center */}
-        <div className="relative mx-0" style={{ borderTop: '2px dashed rgba(26,26,26,0.3)' }}>
-          {/* Edge notches */}
-          <div style={{ position: 'absolute', top: '-7px', left: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808' }} />
-          <div style={{ position: 'absolute', top: '-7px', right: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808' }} />
-          {/* Hanging center dot */}
+        {/* Perforation with hanging center dot */}
+        <Perforation>
           <div style={{
             position: 'absolute',
             top: '-1px',
@@ -256,62 +273,48 @@ export default function TicketNav() {
             borderRadius: '50%',
             background: '#1A1A1A',
           }} />
-        </div>
+        </Perforation>
 
-        {/* Nav Links — large Bebas Neue */}
+        {/* Nav Links — with active state */}
         <nav className="flex flex-col gap-1 px-7 pt-8 pb-6">
-          {NAV_ITEMS.map(item => (
-            <button
-              key={item.id}
-              onClick={() => scrollTo(item.id)}
-              className="flex items-baseline gap-4 group text-left py-1 hover:opacity-50 transition-opacity"
-            >
-              <span className="font-mono-jet" style={{ fontSize: '12px', color: '#999', letterSpacing: '0.05em' }}>
-                {item.num}
-              </span>
-              <span
-                className="font-display"
-                style={{ fontSize: 'clamp(38px, 8vw, 56px)', color: '#1A1A1A', letterSpacing: '0.02em', lineHeight: 1.1 }}
+          {NAV_ITEMS.map(item => {
+            const isActive = activeSection === item.id
+            return (
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className="flex items-baseline gap-4 group text-left py-1 hover:opacity-50 transition-all"
               >
-                {item.label}
-              </span>
-            </button>
-          ))}
+                <span className="font-mono-jet" style={{
+                  fontSize: '12px',
+                  color: isActive ? '#E8E2D4' : '#999',
+                  letterSpacing: '0.05em',
+                  background: isActive ? '#1A1A1A' : 'transparent',
+                  padding: isActive ? '2px 6px' : '2px 0',
+                  borderRadius: '4px',
+                  transition: 'all 0.2s ease',
+                }}>
+                  {item.num}
+                </span>
+                <span
+                  className="font-display"
+                  style={{
+                    fontSize: 'clamp(38px, 8vw, 56px)',
+                    color: '#1A1A1A',
+                    letterSpacing: '0.02em',
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {item.label}
+                </span>
+              </button>
+            )
+          })}
         </nav>
 
-        {/* Perforation */}
-        <div className="relative mx-0" style={{ borderTop: '2px dashed rgba(26,26,26,0.3)' }}>
-          <div style={{ position: 'absolute', top: '-7px', left: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808' }} />
-          <div style={{ position: 'absolute', top: '-7px', right: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808' }} />
-        </div>
+        <Perforation />
 
-        {/* Social icons row */}
-        <div className="flex gap-5 px-7 py-5">
-          {[
-            { Icon: Instagram, href: 'https://instagram.com/', label: 'Instagram' },
-            { Icon: Linkedin,  href: 'https://linkedin.com/',  label: 'LinkedIn' },
-            { Icon: Github,    href: 'https://github.com/',    label: 'GitHub' },
-          ].map(({ Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="hover:opacity-50 transition-opacity"
-            >
-              <Icon size={20} color="#1A1A1A" strokeWidth={1.5} />
-            </a>
-          ))}
-        </div>
-
-        {/* Perforation */}
-        <div className="relative mx-0" style={{ borderTop: '2px dashed rgba(26,26,26,0.3)' }}>
-          <div style={{ position: 'absolute', top: '-7px', left: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808' }} />
-          <div style={{ position: 'absolute', top: '-7px', right: '-7px', width: '14px', height: '14px', borderRadius: '50%', background: '#080808' }} />
-        </div>
-
-        {/* Footer / Copyright */}
+        {/* Footer */}
         <div className="px-7 py-4">
           <span className="font-mono-jet" style={{ fontSize: '9px', letterSpacing: '0.14em', color: '#888' }}>
             ©2025. BILAL CURMALLY. ALL RIGHTS RESERVED.

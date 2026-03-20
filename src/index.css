@@ -9,6 +9,7 @@ html {
   background: #080808;
   color: #F5F5F0;
   color-scheme: dark;
+  scroll-behavior: smooth;
   /* Force sRGB color space — prevents Chrome/Edge/Firefox
      from applying different color profiles to the same hex values */
   forced-color-adjust: none;
@@ -144,5 +145,45 @@ body::before {
   outline: none;
 }
 
+/* ─── Skip to Content ────────────────────────────────────── */
+.skip-to-content {
+  position: fixed;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  background: #F5F0E8;
+  color: #1A1A1A;
+  padding: 12px 24px;
+  border-radius: 0 0 12px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* ─── Form Focus ─────────────────────────────────────────── */
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #F5F0E8;
+  outline-offset: 2px;
+}
+
 /* ─── Selection ──────────────────────────────────────────── */
 ::selection { background: #F5F0E8; color: #1A1A1A; }
+
+/* ─── Print Stylesheet ──────────────────────────────────── */
+@media print {
+  body::before,
+  nav, .skip-to-content,
+  [data-cursor], [data-film-strip],
+  .fixed { display: none !important; }
+  body { background: white; color: black; }
+  section { break-inside: avoid; min-height: auto !important; }
+  a { color: black; text-decoration: underline; }
+  a::after { content: ' (' attr(href) ')'; font-size: 0.8em; }
+}
