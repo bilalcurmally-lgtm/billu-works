@@ -169,7 +169,7 @@ export default function OpeningAnimation({ onComplete }) {
         {/* Click hint */}
         <div
           className="text-center mt-3 font-mono-jet"
-          style={{ fontSize: '10px', color: '#444', letterSpacing: '0.15em' }}
+          style={{ fontSize: '10px', color: '#999', letterSpacing: '0.15em' }}
         >
           CLICK TO ENTER
         </div>

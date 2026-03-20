@@ -36,12 +36,11 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
     if (!card || !meta) return
 
     const onEnter = () => {
-      gsap.to(overlayRef.current, { opacity: 0.45, duration: 0.4, ease: 'power2.out' })
+      gsap.to(overlayRef.current, { opacity: 0.4, duration: 0.4, ease: 'power2.out' })
       gsap.to(meta, { y: -6, duration: 0.4, ease: 'power2.out' })
-      if (videoThumb && !isTouch) setShowVideoThumb(true)
     }
     const onLeave = () => {
-      gsap.to(overlayRef.current, { opacity: 0.7, duration: 0.4, ease: 'power2.out' })
+      gsap.to(overlayRef.current, { opacity: 0.55, duration: 0.4, ease: 'power2.out' })
       gsap.to(meta, { y: 0, duration: 0.4, ease: 'power2.out' })
       setShowVideoThumb(false)
     }
@@ -92,8 +91,8 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
           className="absolute inset-0 w-full h-full"
           style={{
             objectFit: 'cover',
-            objectPosition: 'center',
-            filter: 'brightness(0.45) contrast(1.05)',
+            objectPosition: project.imagePosition || 'center',
+            filter: 'brightness(0.55) contrast(1.05)',
           }}
         />
       )}
@@ -119,8 +118,8 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
         ref={overlayRef}
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.3) 60%, transparent 100%)',
-          opacity: 0.7,
+          background: 'linear-gradient(to top, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.2) 60%, transparent 100%)',
+          opacity: 0.55,
         }}
       />
 
@@ -148,9 +147,9 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
         className="absolute bottom-7 left-7 font-mono-jet"
         style={{ fontSize: '11px', color: '#888', lineHeight: 2, letterSpacing: '0.08em' }}
       >
-        <div><span style={{ color: '#666' }}>CLIENT ————</span>{' '}<span style={{ color: '#ccc' }}>{project.client}</span></div>
-        {project.year && <div><span style={{ color: '#666' }}>YEAR ——————</span>{' '}<span style={{ color: '#ccc' }}>{project.year}</span></div>}
-        <div><span style={{ color: '#666' }}>TYPE ———————</span>{' '}<span style={{ color: '#ccc' }}>{project.type}</span></div>
+        <div><span style={{ color: '#888' }}>CLIENT ————</span>{' '}<span style={{ color: '#ddd' }}>{project.client}</span></div>
+        {project.year && <div><span style={{ color: '#888' }}>YEAR ——————</span>{' '}<span style={{ color: '#ddd' }}>{project.year}</span></div>}
+        <div><span style={{ color: '#888' }}>TYPE ———————</span>{' '}<span style={{ color: '#ddd' }}>{project.type}</span></div>
       </div>
 
       {/* Mini ticket stub on hover/focus */}
@@ -204,22 +203,6 @@ export default function Work() {
           },
         })
 
-        // Stacking: as the NEXT card enters the viewport, this card recedes
-        const nextWrapper = wrappers[i + 1]
-        if (nextWrapper) {
-          gsap.to(wrapper, {
-            scale: 0.95,
-            filter: 'blur(8px)',
-            opacity: 0.6,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: nextWrapper,
-              start: 'top 72%',
-              end: 'top 15%',
-              scrub: true,
-            },
-          })
-        }
       })
     }, sectionRef)
 

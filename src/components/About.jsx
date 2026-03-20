@@ -96,7 +96,7 @@ export default function About() {
 
         {/* Section label */}
         <div className="mb-16 flex items-center gap-4">
-          <span className="font-display text-sm tracking-widest" style={{ color: '#666', fontSize: '14px' }}>
+          <span className="font-display text-sm tracking-widest" style={{ color: '#888', fontSize: '14px' }}>
             ABOUT
           </span>
           <div style={{ flex: 1, height: '1px', background: '#1a1a1a' }} />
@@ -121,7 +121,7 @@ export default function About() {
           ref={bioRef}
           className="font-body mb-10"
           style={{
-            color: '#999',
+            color: '#bbb',
             fontSize: 'clamp(15px, 1.4vw, 18px)',
             lineHeight: 1.8,
             maxWidth: '640px',
@@ -136,7 +136,7 @@ export default function About() {
         <div
           className="font-body mb-10"
           style={{
-            color: '#999',
+            color: '#bbb',
             fontSize: 'clamp(15px, 1.4vw, 18px)',
             lineHeight: 1.8,
             maxWidth: '640px',
@@ -151,7 +151,7 @@ export default function About() {
         <div
           className="font-body mb-16"
           style={{
-            color: '#777',
+            color: '#999',
             fontSize: 'clamp(14px, 1.3vw, 16px)',
             lineHeight: 1.8,
             maxWidth: '640px',
@@ -174,7 +174,7 @@ export default function About() {
                 fontSize: '11px',
                 letterSpacing: '0.1em',
                 border: '1px solid #2a2a2a',
-                color: '#777',
+                color: '#999',
                 background: '#0e0e0e',
               }}
             >

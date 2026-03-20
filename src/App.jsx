@@ -67,9 +67,9 @@ export default function App() {
           onUpdate: (self) => {
             const progress = self.progress
             gsap.set(panel, {
-              scale: 1 - progress * 0.05,
-              filter: `blur(${progress * 12}px)`,
-              opacity: 1 - progress * 0.5,
+              scale: 1 - progress * 0.04,
+              filter: `blur(${progress * 6}px)`,
+              opacity: 1 - progress * 0.35,
             })
           },
           onLeaveBack: () => {

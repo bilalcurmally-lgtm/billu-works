@@ -112,7 +112,7 @@ export default function Hero() {
     >
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 md:px-12 pt-7">
-        <span className="font-heading text-sm tracking-tight" style={{ color: '#777' }}>
+        <span className="font-heading text-sm tracking-tight" style={{ color: '#999' }}>
           billu.works
         </span>
         <div className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export default function Hero() {
             className="inline-block w-2 h-2 rounded-full"
             style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite' }}
           />
-          <span className="font-mono-jet text-xs" style={{ color: '#888', fontSize: '11px' }}>
+          <span className="font-mono-jet text-xs" style={{ color: '#aaa', fontSize: '11px' }}>
             Let's connect and exchange ideas.
           </span>
         </div>
@@ -133,7 +133,7 @@ export default function Hero() {
           <p
             ref={el => linesRef.current[0] = el}
             className="font-heading mb-3"
-            style={{ color: '#777', fontSize: '14px', letterSpacing: '0.05em' }}
+            style={{ color: '#999', fontSize: '14px', letterSpacing: '0.05em' }}
           >
             Hi, I'm Bilal Curmally
           </p>
@@ -158,7 +158,7 @@ export default function Hero() {
           <div
             ref={el => linesRef.current[lines.length + 1] = el}
             className="font-mono-jet"
-            style={{ color: '#999', fontSize: '12px', lineHeight: 1.7, letterSpacing: '0.05em' }}
+            style={{ color: '#aaa', fontSize: '12px', lineHeight: 1.7, letterSpacing: '0.05em' }}
           >
             <div>Let's connect and exchange ideas.</div>
             <div>Building things that shouldn't exist.</div>
@@ -178,7 +178,7 @@ export default function Hero() {
               backgroundSize: '85%',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: '60% 20%',
-              filter: 'brightness(0.22) contrast(1.1) saturate(0.5)',
+              filter: 'brightness(0.35) contrast(1.1) saturate(0.5)',
             }}
           />
           {/* Film grain overlay on portrait */}
@@ -194,7 +194,7 @@ export default function Hero() {
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'radial-gradient(ellipse 55% 50% at 55% 35%, transparent 0%, rgba(8,8,8,0.5) 30%, #080808 65%)',
+              background: 'radial-gradient(ellipse 55% 50% at 55% 35%, transparent 0%, rgba(8,8,8,0.4) 35%, #080808 70%)',
             }}
           />
         </div>}
@@ -220,7 +220,7 @@ export default function Hero() {
               >
                 <AnimatedStat stat={stat} prefersReduced={prefersReduced} />
               </div>
-              <div className="font-mono-jet mt-0.5" style={{ color: '#777', fontSize: '11px', letterSpacing: '0.1em' }}>
+              <div className="font-mono-jet mt-0.5" style={{ color: '#999', fontSize: '11px', letterSpacing: '0.1em' }}>
                 {stat.label}
               </div>
             </div>

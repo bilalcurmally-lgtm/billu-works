@@ -46,7 +46,7 @@ export default function Footer() {
           <div className="font-display text-2xl mb-1" style={{ color: '#F5F5F0', letterSpacing: '0.05em' }}>
             billu.works
           </div>
-          <div className="font-mono-jet" style={{ color: '#666', fontSize: '11px', letterSpacing: '0.1em', lineHeight: 1.8 }}>
+          <div className="font-mono-jet" style={{ color: '#888', fontSize: '11px', letterSpacing: '0.1em', lineHeight: 1.8 }}>
             Video Editor · Colorist<br />
             Writer · Coding Hopeful
           </div>
@@ -54,7 +54,7 @@ export default function Footer() {
 
         {/* Right */}
         <div className="text-right">
-          <div className="font-mono-jet mb-1" style={{ color: '#666', fontSize: '11px', letterSpacing: '0.08em', lineHeight: 1.8 }}>
+          <div className="font-mono-jet mb-1" style={{ color: '#888', fontSize: '11px', letterSpacing: '0.08em', lineHeight: 1.8 }}>
             ©2026 Bilal Curmally<br />
             Built with React + GSAP<br />
             Karachi, Pakistan
@@ -68,7 +68,7 @@ export default function Footer() {
         style={{ borderTop: '1px solid #111' }}
       >
         <div className="flex items-center justify-between w-full">
-          <span className="font-mono-jet" style={{ color: '#333', fontSize: '9px', letterSpacing: '0.08em' }}>
+          <span className="font-mono-jet" style={{ color: '#555', fontSize: '9px', letterSpacing: '0.08em' }}>
             vibe coded by myself for myself with claude cli
           </span>
           <div className="flex items-center gap-2">
@@ -76,7 +76,7 @@ export default function Footer() {
               className="inline-block w-1.5 h-1.5 rounded-full"
               style={{ background: '#22c55e', boxShadow: '0 0 6px #22c55e', animation: 'pulse 2s infinite' }}
             />
-            <span className="font-mono-jet" style={{ color: '#666', fontSize: '10px', letterSpacing: '0.15em' }}>
+            <span className="font-mono-jet" style={{ color: '#888', fontSize: '10px', letterSpacing: '0.15em' }}>
               SESSION {timecode}
             </span>
           </div>
