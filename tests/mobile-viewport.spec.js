@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Mobile Viewport (375px)', () => {
-  test.use({ viewport: { width: 375, height: 812 } })
+  test.use({ viewport: { width: 375, height: 812 }, hasTouch: true })
 
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => {
@@ -18,7 +18,7 @@ test.describe('Mobile Viewport (375px)', () => {
   })
 
   test('nav stub is visible and clickable', async ({ page }) => {
-    const stub = page.locator('.fixed.top-6.right-6')
+    const stub = page.locator('.fixed.top-5.right-5')
     await expect(stub).toBeVisible()
     await stub.click()
     // Nav overlay should open

@@ -20,18 +20,21 @@ test.describe('Scroll Stacking & Film Strip', () => {
   })
 
   test('sections have correct z-index stacking order', async ({ page }) => {
-    const sections = page.locator('main > div[data-scroll]')
+    // ScrollTrigger pinning may reparent elements, so query all data-scroll divs
+    const sections = page.locator('div[data-scroll]')
     const count = await sections.count()
     expect(count).toBeGreaterThanOrEqual(3)
 
-    // Each section should have increasing z-index
-    let prevZ = 0
+    // Collect z-indexes and verify they are in ascending order
+    const zIndexes = []
     for (let i = 0; i < count; i++) {
       const zIndex = await sections.nth(i).evaluate(el => {
         return parseInt(el.style.zIndex || '0', 10)
       })
-      expect(zIndex).toBeGreaterThan(prevZ)
-      prevZ = zIndex
+      zIndexes.push(zIndex)
+    }
+    for (let i = 1; i < zIndexes.length; i++) {
+      expect(zIndexes[i]).toBeGreaterThan(zIndexes[i - 1])
     }
   })
 

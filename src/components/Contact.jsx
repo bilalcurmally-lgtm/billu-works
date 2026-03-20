@@ -5,6 +5,21 @@ import { Send } from 'lucide-react'
 import { useMagneticButton } from '../utils/useMagneticButton'
 import { useReducedMotion } from '../utils/useReducedMotion'
 
+const CONTACT_EMAIL = 'billu.curmally@gmail.com'
+
+const INPUT_STYLE = {
+  background: 'rgba(245,240,232,0.06)',
+  border: '1px solid rgba(245,240,232,0.12)',
+  color: '#F5F5F0',
+  borderRadius: '12px',
+  padding: '14px 16px',
+  fontSize: '13px',
+  fontFamily: 'Inter, system-ui, sans-serif',
+  width: '100%',
+  outline: 'none',
+  transition: 'border-color 0.2s',
+}
+
 export default function Contact() {
   const sectionRef = useRef(null)
   const headRef    = useRef(null)
@@ -83,28 +98,14 @@ export default function Contact() {
   const handleRetry = () => setStatus('idle')
 
   const copyEmail = async () => {
-    const email = 'billu.curmally@gmail.com'
     try {
-      await navigator.clipboard.writeText(email)
+      await navigator.clipboard.writeText(CONTACT_EMAIL)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
       // Fallback: prompt user to copy manually
-      window.prompt('Copy this email address:', email)
+      window.prompt('Copy this email address:', CONTACT_EMAIL)
     }
-  }
-
-  const inputStyle = {
-    background: 'rgba(245,240,232,0.06)',
-    border: '1px solid rgba(245,240,232,0.12)',
-    color: '#F5F5F0',
-    borderRadius: '12px',
-    padding: '14px 16px',
-    fontSize: '13px',
-    fontFamily: 'Inter, system-ui, sans-serif',
-    width: '100%',
-    outline: 'none',
-    transition: 'border-color 0.2s',
   }
 
   return (
@@ -182,7 +183,7 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="e.g. Arjun Sharma"
                     required
-                    style={{ ...inputStyle, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A' }}
+                    style={{ ...INPUT_STYLE, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A' }}
                   />
                 </div>
 
@@ -198,7 +199,7 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder="you@example.com"
                     required
-                    style={{ ...inputStyle, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A' }}
+                    style={{ ...INPUT_STYLE, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A' }}
                   />
                 </div>
 
@@ -215,7 +216,7 @@ export default function Contact() {
                     placeholder="What's on your mind?"
                     required
                     maxLength={2000}
-                    style={{ ...inputStyle, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A', resize: 'vertical', minHeight: '110px' }}
+                    style={{ ...INPUT_STYLE, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A', resize: 'vertical', minHeight: '110px' }}
                   />
                 </div>
 
@@ -227,7 +228,7 @@ export default function Contact() {
                     <span className="font-mono-jet" style={{ fontSize: '10px', color: '#666' }}>
                       Send failed — try{' '}
                       <button type="button" onClick={copyEmail} className="underline hover:opacity-70" style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', font: 'inherit' }}>
-                        {copied ? 'COPIED!' : 'billu.curmally@gmail.com'}
+                        {copied ? 'COPIED!' : CONTACT_EMAIL}
                       </button>
                     </span>
                     <button
@@ -248,7 +249,7 @@ export default function Contact() {
                       <>
                         Or email:{' '}
                         <button type="button" onClick={copyEmail} className="underline hover:opacity-70" style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', font: 'inherit' }}>
-                          {copied ? 'COPIED!' : 'billu.curmally@gmail.com'}
+                          {copied ? 'COPIED!' : CONTACT_EMAIL}
                         </button>
                       </>
                     )}

@@ -2,19 +2,17 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ArrowUpRight, X } from 'lucide-react'
 import { useReducedMotion } from '../utils/useReducedMotion'
+import { useScrollLock } from '../utils/useScrollLock'
+import ProjectMeta from './ProjectMeta'
 
 export default function ProjectLightbox({ project, onClose }) {
   const overlayRef = useRef(null)
   const cardRef = useRef(null)
   const prefersReduced = useReducedMotion()
+  const scrollLock = useScrollLock()
 
   useEffect(() => {
-    // Lock body scroll
-    const prev = document.body.style.cssText
-    document.body.style.overflow = 'hidden'
-    document.body.style.position = 'fixed'
-    document.body.style.width = '100%'
-    document.body.style.top = `-${window.scrollY}px`
+    scrollLock.lock()
 
     // Entrance animation
     if (!prefersReduced) {
@@ -27,11 +25,9 @@ export default function ProjectLightbox({ project, onClose }) {
 
     return () => {
       window.removeEventListener('keydown', onKey)
-      const scrollY = document.body.style.top
-      document.body.style.cssText = prev
-      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1)
+      scrollLock.unlock()
     }
-  }, [onClose, prefersReduced])
+  }, [onClose, prefersReduced, scrollLock])
 
   if (!project) return null
 
@@ -94,10 +90,8 @@ export default function ProjectLightbox({ project, onClose }) {
         </div>
 
         {/* Metadata */}
-        <div className="px-6 mb-4 font-mono-jet" style={{ fontSize: '11px', color: '#666', lineHeight: 2, letterSpacing: '0.08em' }}>
-          <div><span style={{ color: '#999' }}>CLIENT ————</span>{' '}{project.client}</div>
-          {project.year && <div><span style={{ color: '#999' }}>YEAR ——————</span>{' '}{project.year}</div>}
-          <div><span style={{ color: '#999' }}>TYPE ———————</span>{' '}{project.type}</div>
+        <div className="px-6 mb-4">
+          <ProjectMeta project={project} color="#999" valueColor="#666" />
         </div>
 
         <div className="ticket-perforation mx-4 mb-4" />

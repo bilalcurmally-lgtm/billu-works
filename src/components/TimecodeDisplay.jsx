@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const SECTIONS = [
   { id: 'hero',    code: '00' },
@@ -16,8 +16,9 @@ const LABELS = {
 
 export default function TimecodeDisplay() {
   const [current, setCurrent] = useState('hero')
-  const [frame, setFrame]     = useState(0)
   const [visible, setVisible] = useState(false)
+  const frameRef = useRef(null)
+  const frameCount = useRef(0)
 
   useEffect(() => {
     // Don't show on touch devices
@@ -27,9 +28,12 @@ export default function TimecodeDisplay() {
     // Show after a short delay
     const timer = setTimeout(() => setVisible(true), 400)
 
-    // Frame counter
+    // Frame counter — writes directly to DOM to avoid React re-renders
     const frameInterval = setInterval(() => {
-      setFrame(f => (f + 1) % 1000)
+      frameCount.current = (frameCount.current + 1) % 1000
+      if (frameRef.current) {
+        frameRef.current.textContent = String(frameCount.current).padStart(3, '0')
+      }
     }, 100)
 
     // IntersectionObserver to detect current section
@@ -72,7 +76,7 @@ export default function TimecodeDisplay() {
         <div style={{ color: '#222' }}>billu.works</div>
         <div>
           {sec?.code ?? '00'} — {LABELS[current] ?? 'HERO'} / FRAME{' '}
-          <span style={{ color: '#444' }}>{String(frame).padStart(3, '0')}</span>
+          <span ref={frameRef} style={{ color: '#444' }}>000</span>
         </div>
       </div>
     </div>

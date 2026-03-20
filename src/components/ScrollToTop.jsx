@@ -1,11 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import { ChevronUp } from 'lucide-react'
 import { useReducedMotion } from '../utils/useReducedMotion'
 import { useIsTouch } from '../utils/useIsTouch'
-
-gsap.registerPlugin(ScrollToPlugin)
 
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false)

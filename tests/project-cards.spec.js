@@ -17,15 +17,14 @@ test.describe('Project Cards', () => {
     await expect(heading).toBeVisible()
   })
 
-  test('project cards are rendered as links', async ({ page }) => {
+  test('project cards are rendered as clickable divs', async ({ page }) => {
     await page.locator('#work').scrollIntoViewIfNeeded()
     const cards = page.locator('#work .project-card')
     const count = await cards.count()
     expect(count).toBeGreaterThan(0)
-    // Each card should be an <a> tag
+    // Each card should be a <div> with role="button"
     for (let i = 0; i < count; i++) {
-      const tag = await cards.nth(i).evaluate(el => el.tagName.toLowerCase())
-      expect(tag).toBe('a')
+      await expect(cards.nth(i)).toHaveAttribute('role', 'button')
     }
   })
 

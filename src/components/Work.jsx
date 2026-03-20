@@ -6,6 +6,7 @@ import { projects } from '../data/projects'
 import { useReducedMotion } from '../utils/useReducedMotion'
 import { useIsTouch } from '../utils/useIsTouch'
 import ProjectLightbox from './ProjectLightbox'
+import ProjectMeta from './ProjectMeta'
 
 /**
  * Extract a video thumbnail URL from Vimeo/YouTube URLs.
@@ -24,8 +25,8 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
   const cardRef    = useRef(null)
   const metaRef    = useRef(null)
   const overlayRef = useRef(null)
-  const [imgError, setImgError] = useState(false)
   const [imgRetries, setImgRetries] = useState(0)
+  const [imgFailed, setImgFailed] = useState(false)
   const [showVideoThumb, setShowVideoThumb] = useState(false)
   const videoThumb = getVideoThumb(project.url)
 
@@ -53,7 +54,7 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
     }
   }, [prefersReduced, isTouch, videoThumb])
 
-  const showGradient = (imgError && imgRetries >= 2) || !project.image
+  const showGradient = imgFailed || !project.image
 
   return (
     <div
@@ -74,18 +75,17 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
       {/* Project image — lazy loaded, with gradient fallback after 2 retries */}
       {!showGradient && (
         <img
-          src={imgError ? `${project.image}?retry=${imgRetries}` : project.image}
+          key={imgRetries}
+          src={imgRetries > 0 ? `${project.image}?retry=${imgRetries}` : project.image}
           alt={`${project.title} project`}
           loading="lazy"
           width={1200}
           height={675}
           onError={() => {
             if (imgRetries < 2) {
-              setImgError(false)
               setImgRetries(r => r + 1)
-              setTimeout(() => setImgError(true), 100)
             } else {
-              setImgError(true)
+              setImgFailed(true)
             }
           }}
           className="absolute inset-0 w-full h-full"
@@ -142,14 +142,8 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
       </div>
 
       {/* Metadata — bottom left */}
-      <div
-        ref={metaRef}
-        className="absolute bottom-7 left-7 font-mono-jet"
-        style={{ fontSize: '11px', color: '#888', lineHeight: 2, letterSpacing: '0.08em' }}
-      >
-        <div><span style={{ color: '#888' }}>CLIENT ————</span>{' '}<span style={{ color: '#ddd' }}>{project.client}</span></div>
-        {project.year && <div><span style={{ color: '#888' }}>YEAR ——————</span>{' '}<span style={{ color: '#ddd' }}>{project.year}</span></div>}
-        <div><span style={{ color: '#888' }}>TYPE ———————</span>{' '}<span style={{ color: '#ddd' }}>{project.type}</span></div>
+      <div ref={metaRef} className="absolute bottom-7 left-7">
+        <ProjectMeta project={project} />
       </div>
 
       {/* Mini ticket stub on hover/focus */}

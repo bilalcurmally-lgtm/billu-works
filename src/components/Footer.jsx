@@ -3,25 +3,22 @@ import { useState, useEffect, useRef } from 'react'
 function useTimecode() {
   const [tc, setTc] = useState('00:00:00:00')
   const startRef = useRef(null)
-  const rafRef = useRef(null)
 
   useEffect(() => {
     if (startRef.current === null) startRef.current = performance.now()
     const start = startRef.current
 
-    const tick = (now) => {
-      const elapsedMs = now - start
+    const interval = setInterval(() => {
+      const elapsedMs = performance.now() - start
       const elapsed = Math.floor(elapsedMs / 1000)
       const h = String(Math.floor(elapsed / 3600)).padStart(2, '0')
       const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0')
       const s = String(elapsed % 60).padStart(2, '0')
       const f = String(Math.floor((elapsedMs % 1000) / (1000 / 24))).padStart(2, '0')
       setTc(`${h}:${m}:${s}:${f}`)
-      rafRef.current = requestAnimationFrame(tick)
-    }
+    }, 250)
 
-    rafRef.current = requestAnimationFrame(tick)
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
+    return () => clearInterval(interval)
   }, [])
 
   return tc

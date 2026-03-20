@@ -17,7 +17,7 @@ test.describe('Ticket Nav', () => {
 
   test('clicking stub opens nav overlay', async ({ page }) => {
     // Click the nav stub (has Menu icon)
-    const stub = page.locator('.fixed.top-6.right-6')
+    const stub = page.locator('.fixed.top-5.right-5')
     await stub.click()
     // Nav overlay should appear with nav items
     await expect(page.getByText('WORK').first()).toBeVisible({ timeout: 3000 })
@@ -26,7 +26,7 @@ test.describe('Ticket Nav', () => {
   })
 
   test('clicking nav item scrolls to section', async ({ page }) => {
-    const stub = page.locator('.fixed.top-6.right-6')
+    const stub = page.locator('.fixed.top-5.right-5')
     await stub.click()
     // Click WORK nav item
     const workBtn = page.locator('nav button', { hasText: 'WORK' })
@@ -37,7 +37,7 @@ test.describe('Ticket Nav', () => {
   })
 
   test('Escape key closes nav', async ({ page }) => {
-    const stub = page.locator('.fixed.top-6.right-6')
+    const stub = page.locator('.fixed.top-5.right-5')
     await stub.click()
     // Verify overlay is open
     await expect(page.getByText('WORK').first()).toBeVisible({ timeout: 3000 })
@@ -48,12 +48,12 @@ test.describe('Ticket Nav', () => {
   })
 
   test('clicking backdrop closes nav', async ({ page }) => {
-    const stub = page.locator('.fixed.top-6.right-6')
+    const stub = page.locator('.fixed.top-5.right-5')
     await stub.click()
     await expect(page.getByText('WORK').first()).toBeVisible({ timeout: 3000 })
     // Click the backdrop (the semi-transparent overlay behind the nav)
-    const backdrop = page.locator('.fixed.inset-0.z-\\[9995\\]')
-    await backdrop.click({ position: { x: 10, y: 300 } })
+    const backdrop = page.locator('.fixed.inset-0').last()
+    await backdrop.click({ position: { x: 10, y: 300 }, force: true })
     // Nav should close
     await expect(stub).toHaveCSS('opacity', '1', { timeout: 3000 })
   })

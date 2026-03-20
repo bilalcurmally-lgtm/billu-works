@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import gsap from 'gsap'
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import { X } from 'lucide-react'
 import { useMagneticButton } from '../utils/useMagneticButton'
 import { useReducedMotion } from '../utils/useReducedMotion'
-
-gsap.registerPlugin(ScrollToPlugin)
+import { useScrollLock } from '../utils/useScrollLock'
 
 const NAV_ITEMS = [
   { num: '01', label: 'WORK',    id: 'work' },
@@ -54,7 +52,7 @@ export default function TicketNav() {
   const isAnimating  = useRef(false)
   const magneticRef  = useMagneticButton(0.25)
   const prefersReduced = useReducedMotion()
-  const savedScrollY = useRef(0)
+  const scrollLock = useScrollLock()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
@@ -92,12 +90,7 @@ export default function TicketNav() {
     if (isAnimating.current || open) return
     isAnimating.current = true
     setOpen(true)
-    savedScrollY.current = window.scrollY
-    document.body.style.position = 'fixed'
-    document.body.style.top = `-${savedScrollY.current}px`
-    document.body.style.left = '0'
-    document.body.style.right = '0'
-    document.body.style.overflow = 'hidden'
+    scrollLock.lock()
 
     gsap.set(overlayRef.current, { display: 'flex', scale: 0.6, opacity: 0, transformOrigin: 'top right' })
     const tl = gsap.timeline({ onComplete: () => { isAnimating.current = false } })
@@ -108,12 +101,7 @@ export default function TicketNav() {
   const closeNav = () => {
     if (isAnimating.current || !open) return
     isAnimating.current = true
-    document.body.style.position = ''
-    document.body.style.top = ''
-    document.body.style.left = ''
-    document.body.style.right = ''
-    document.body.style.overflow = ''
-    window.scrollTo(0, savedScrollY.current)
+    scrollLock.unlock()
 
     const tl = gsap.timeline({
       onComplete: () => {
