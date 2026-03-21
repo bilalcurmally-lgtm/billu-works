@@ -167,17 +167,17 @@ export default function Hero() {
 
         {/* Hero image — right side, atmospheric ghost, not a portrait placement */}
         {portraitLoaded && <div
-          className="absolute top-0 bottom-0"
-          style={{ left: '0%', right: '-10%', overflow: 'hidden' }}
+          className="absolute top-0 bottom-0 right-0"
+          style={{ left: '35%', overflow: 'hidden' }}
         >
           <div
             ref={imageRef}
             className="w-full h-full"
             style={{
               backgroundImage: 'url(/images/hero-portrait.jpg)',
-              backgroundSize: 'cover',
+              backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center 20%',
+              backgroundPosition: 'right center',
               filter: 'brightness(0.55) contrast(1.1) saturate(0.6)',
             }}
           />
@@ -190,18 +190,11 @@ export default function Hero() {
               mixBlendMode: 'overlay',
             }}
           />
-          {/* Desktop vignette — fade edges, keep center portrait visible */}
+          {/* Vignette — fade left edge into background so text stays readable */}
           <div
-            className="absolute inset-0 pointer-events-none hidden md:block"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'radial-gradient(ellipse 60% 55% at 55% 40%, transparent 0%, rgba(8,8,8,0.25) 45%, #080808 80%)',
-            }}
-          />
-          {/* Mobile vignette — left fade for text readability, keep portrait visible */}
-          <div
-            className="absolute inset-0 pointer-events-none md:hidden"
-            style={{
-              background: 'linear-gradient(to right, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.3) 40%, transparent 60%, rgba(8,8,8,0.6) 100%), linear-gradient(to top, rgba(8,8,8,0.7) 0%, transparent 30%, transparent 70%, rgba(8,8,8,0.5) 100%)',
+              background: 'linear-gradient(to right, #080808 0%, rgba(8,8,8,0.6) 25%, transparent 50%, transparent 85%, rgba(8,8,8,0.4) 100%), linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, transparent 15%, transparent 85%, rgba(8,8,8,0.5) 100%)',
             }}
           />
         </div>}
