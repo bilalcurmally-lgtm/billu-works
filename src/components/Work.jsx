@@ -67,7 +67,7 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpenLightbox(project) } }}
       aria-label={`View ${project.title} project details`}
       style={{
-        height: 'clamp(340px, 55vh, 560px)',
+        height: 'clamp(400px, 60vh, 560px)',
         background: showGradient ? project.gradient : '#111111',
         textDecoration: 'none',
       }}

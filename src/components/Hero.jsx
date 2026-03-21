@@ -167,18 +167,18 @@ export default function Hero() {
 
         {/* Hero image — right side, atmospheric ghost, not a portrait placement */}
         {portraitLoaded && <div
-          className="absolute top-0 bottom-0 hidden md:block"
-          style={{ left: '40%', right: '-10%', overflow: 'hidden' }}
+          className="absolute top-0 bottom-0"
+          style={{ left: '0%', right: '-10%', overflow: 'hidden' }}
         >
           <div
             ref={imageRef}
             className="w-full h-full"
             style={{
               backgroundImage: 'url(/images/hero-portrait.jpg)',
-              backgroundSize: '85%',
+              backgroundSize: 'clamp(100%, 85vw, 85%)',
               backgroundRepeat: 'no-repeat',
-              backgroundPosition: '60% 20%',
-              filter: 'brightness(0.35) contrast(1.1) saturate(0.5)',
+              backgroundPosition: 'center 20%',
+              filter: 'brightness(0.4) contrast(1.1) saturate(0.5)',
             }}
           />
           {/* Film grain overlay on portrait */}
@@ -192,9 +192,16 @@ export default function Hero() {
           />
           {/* Radial vignette — tight pool of ghost light, everything else is darkness */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none hidden md:block"
             style={{
               background: 'radial-gradient(ellipse 55% 50% at 55% 35%, transparent 0%, rgba(8,8,8,0.4) 35%, #080808 70%)',
+            }}
+          />
+          {/* Mobile vignette — heavier left fade so text stays readable */}
+          <div
+            className="absolute inset-0 pointer-events-none md:hidden"
+            style={{
+              background: 'linear-gradient(to right, #080808 0%, rgba(8,8,8,0.55) 35%, rgba(8,8,8,0.15) 65%, #080808 100%), linear-gradient(to top, #080808 0%, transparent 35%, transparent 65%, #080808 100%)',
             }}
           />
         </div>}

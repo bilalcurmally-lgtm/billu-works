@@ -52,7 +52,7 @@ export default function OpeningAnimation({ onComplete }) {
       })
       // Portrait seeps in behind it
       .to(portraitRef.current, {
-        opacity: 0.11,
+        opacity: window.innerWidth < 768 ? 0.25 : 0.14,
         duration: 1.4,
         ease: 'power2.inOut',
       }, '-=0.2')
@@ -99,7 +99,7 @@ export default function OpeningAnimation({ onComplete }) {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.75) 70%, rgba(8,8,8,0.95) 100%)',
+          background: 'radial-gradient(ellipse at center, rgba(8,8,8,0.15) 0%, rgba(8,8,8,0.6) 65%, rgba(8,8,8,0.9) 100%)',
         }}
       />
 
