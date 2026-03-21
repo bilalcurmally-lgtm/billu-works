@@ -139,7 +139,9 @@ export default function App() {
         <div ref={el => sectionsRef.current[3] = el} data-scroll="stack" style={{ position: 'relative', zIndex: isTouch ? undefined : 4, background: '#080808', willChange: isTouch ? undefined : 'transform, filter, opacity' }}>
           <Contact />
         </div>
-        <Footer />
+        <div style={{ position: 'relative', zIndex: 5 }}>
+          <Footer />
+        </div>
       </main>
     </ErrorBoundary>
   )
