@@ -50,7 +50,7 @@ export default function Footer() {
         </div>
 
         {/* Right */}
-        <div className="text-right">
+        <div className="text-left md:text-right">
           <div className="font-mono mb-1" style={{ color: '#888', fontSize: '11px', letterSpacing: '0.08em', lineHeight: 1.8 }}>
             ©2026 Bilal Curmally<br />
             Built with React + GSAP<br />
