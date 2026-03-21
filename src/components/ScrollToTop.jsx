@@ -66,7 +66,7 @@ export default function ScrollToTop() {
     >
       <ChevronUp size={14} strokeWidth={2} />
       <span
-        className="font-mono-jet"
+        className="font-mono"
         style={{ fontSize: '9px', letterSpacing: '0.15em' }}
       >
         TOP

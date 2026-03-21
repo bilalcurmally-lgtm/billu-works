@@ -33,7 +33,7 @@ export default class ErrorBoundary extends Component {
                 TECHNICAL DIFFICULTIES
               </div>
               <div
-                className="font-mono-jet mb-1"
+                className="font-mono mb-1"
                 style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}
               >
                 SOMETHING WENT WRONG
@@ -46,7 +46,7 @@ export default class ErrorBoundary extends Component {
               </p>
               {import.meta.env.DEV && this.state.error && (
                 <pre
-                  className="font-mono-jet text-left mb-4 p-3 rounded-lg overflow-auto"
+                  className="font-mono text-left mb-4 p-3 rounded-lg overflow-auto"
                   style={{ fontSize: '9px', color: '#888', background: 'rgba(26,26,26,0.08)', maxHeight: '120px' }}
                 >
                   {this.state.error.toString()}
@@ -54,7 +54,7 @@ export default class ErrorBoundary extends Component {
               )}
               <button
                 onClick={() => window.location.reload()}
-                className="rounded-xl px-5 py-3 font-mono-jet text-xs tracking-widest hover:opacity-80 transition-opacity"
+                className="rounded-xl px-5 py-3 font-mono text-xs tracking-widest hover:opacity-80 transition-opacity"
                 style={{ background: '#1A1A1A', color: '#F5F0E8', letterSpacing: '0.1em', cursor: 'pointer' }}
               >
                 RELOAD
@@ -62,7 +62,7 @@ export default class ErrorBoundary extends Component {
             </div>
           </div>
           <div
-            className="font-mono-jet mt-6"
+            className="font-mono mt-6"
             style={{ fontSize: '10px', color: '#333', letterSpacing: '0.15em' }}
           >
             billu.works

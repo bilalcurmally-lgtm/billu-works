@@ -55,7 +55,7 @@ export default function ProjectLightbox({ project, onClose }) {
       >
         {/* Header */}
         <div className="px-6 pt-6 pb-3 flex items-center justify-between">
-          <span className="font-mono-jet text-xs tracking-widest" style={{ color: '#888' }}>
+          <span className="font-mono text-xs tracking-widest" style={{ color: '#888' }}>
             PROJECT DETAILS
           </span>
           <button
@@ -98,7 +98,7 @@ export default function ProjectLightbox({ project, onClose }) {
 
         {/* CTA */}
         <div className="px-6 pb-6 flex items-center justify-between">
-          <span className="font-mono-jet" style={{ fontSize: '10px', color: '#aaa', letterSpacing: '0.12em' }}>
+          <span className="font-mono" style={{ fontSize: '10px', color: '#aaa', letterSpacing: '0.12em' }}>
             billu.works
           </span>
           {project.url && project.url !== '#' && (
@@ -106,7 +106,7 @@ export default function ProjectLightbox({ project, onClose }) {
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-xl px-5 py-3 font-mono-jet text-xs tracking-widest hover:opacity-80 transition-opacity"
+              className="flex items-center gap-2 rounded-xl px-5 py-3 font-mono text-xs tracking-widest hover:opacity-80 transition-opacity"
               style={{ background: '#1A1A1A', color: '#F5F0E8', letterSpacing: '0.1em', textDecoration: 'none' }}
             >
               WATCH

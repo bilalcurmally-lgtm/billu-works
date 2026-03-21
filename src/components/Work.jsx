@@ -70,6 +70,7 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
         height: 'clamp(420px, 65vh, 600px)',
         background: showGradient ? project.gradient : '#111111',
         textDecoration: 'none',
+        border: '1px solid #1a1a1a',
       }}
     >
       {/* Project image — lazy loaded, with gradient fallback after 2 retries */}
@@ -92,7 +93,7 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
           style={{
             objectFit: 'cover',
             objectPosition: project.imagePosition || 'center',
-            filter: 'brightness(0.55) contrast(1.05)',
+            filter: 'brightness(0.7) contrast(1.05)',
           }}
         />
       )}
@@ -118,8 +119,8 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
         ref={overlayRef}
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(to top, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.2) 60%, transparent 100%)',
-          opacity: 0.55,
+          background: 'linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.15) 50%, transparent 100%)',
+          opacity: 0.45,
         }}
       />
 
@@ -149,7 +150,7 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
       {/* Mini ticket stub on hover/focus */}
       <div className="absolute bottom-7 right-6 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300">
         <div className="rounded-lg px-3 py-1.5" style={{ background: '#F5F0E8', color: '#1A1A1A' }}>
-          <span className="font-mono-jet" style={{ fontSize: '9px', letterSpacing: '0.15em' }}>
+          <span className="font-mono" style={{ fontSize: '9px', letterSpacing: '0.15em' }}>
             {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
           </span>
         </div>
@@ -207,7 +208,7 @@ export default function Work() {
     <section
       ref={sectionRef}
       id="work"
-      className="section-panel py-24 px-6 md:px-12"
+      className="section-panel py-16 px-6 md:px-12"
     >
       {/* Film strip header — proper 35mm film strip with sprocket holes */}
       <div ref={headerRef} className="mb-12">

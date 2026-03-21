@@ -49,7 +49,7 @@ export default function KonamiEasterEgg() {
     >
       {/* Label */}
       <div
-        className="absolute top-8 left-1/2 -translate-x-1/2 font-mono-jet text-center"
+        className="absolute top-8 left-1/2 -translate-x-1/2 font-mono text-center"
         style={{
           fontSize: '10px',
           letterSpacing: '0.25em',

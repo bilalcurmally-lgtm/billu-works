@@ -60,7 +60,7 @@ export default function Preloader({ onComplete }) {
     >
       {/* Film leader frame count */}
       <div
-        className="font-mono-jet mb-6"
+        className="font-mono mb-6"
         style={{ color: '#333', fontSize: '10px', letterSpacing: '0.2em' }}
       >
         LOADING REEL
@@ -89,7 +89,7 @@ export default function Preloader({ onComplete }) {
 
       {/* Percentage */}
       <div
-        className="font-mono-jet mt-3"
+        className="font-mono mt-3"
         style={{ color: '#444', fontSize: '9px', letterSpacing: '0.15em' }}
       >
         {progress}%

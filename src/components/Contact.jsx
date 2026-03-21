@@ -112,7 +112,7 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="section-panel py-24 px-6 md:px-12"
+      className="section-panel py-16 px-6 md:px-12"
     >
       <div className="max-w-2xl mx-auto">
 
@@ -137,7 +137,7 @@ export default function Contact() {
               style={{ background: '#F5F0E8', color: '#1A1A1A' }}
             >
               <div className="font-display text-3xl mb-2">TICKET RECEIVED</div>
-              <p className="font-mono-jet text-xs tracking-widest" style={{ color: '#666' }}>
+              <p className="font-mono text-xs tracking-widest" style={{ color: '#666' }}>
                 I'll be in touch soon. Thanks, {submittedName || 'friend'}.
               </p>
             </div>
@@ -149,10 +149,10 @@ export default function Contact() {
             >
               {/* Form header */}
               <div className="px-6 pt-6 pb-4 flex items-center justify-between">
-                <span className="font-mono-jet text-xs tracking-widest" style={{ color: '#888' }}>
+                <span className="font-mono text-xs tracking-widest" style={{ color: '#888' }}>
                   GET IN TOUCH
                 </span>
-                <span className="font-mono-jet text-xs" style={{ color: '#aaa' }}>
+                <span className="font-mono text-xs" style={{ color: '#aaa' }}>
                   billu.works
                 </span>
               </div>
@@ -173,7 +173,7 @@ export default function Contact() {
               <div className="px-6 pb-6 flex flex-col gap-4">
                 {/* Name */}
                 <div>
-                  <label className="font-mono-jet block mb-1.5" style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}>
+                  <label className="font-mono block mb-1.5" style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}>
                     YOUR NAME
                   </label>
                   <input
@@ -189,7 +189,7 @@ export default function Contact() {
 
                 {/* Email */}
                 <div>
-                  <label className="font-mono-jet block mb-1.5" style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}>
+                  <label className="font-mono block mb-1.5" style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}>
                     YOUR EMAIL
                   </label>
                   <input
@@ -205,7 +205,7 @@ export default function Contact() {
 
                 {/* Message */}
                 <div>
-                  <label className="font-mono-jet block mb-1.5" style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}>
+                  <label className="font-mono block mb-1.5" style={{ fontSize: '10px', color: '#888', letterSpacing: '0.15em' }}>
                     YOUR MESSAGE
                   </label>
                   <textarea
@@ -225,7 +225,7 @@ export default function Contact() {
                 {/* Error state with retry */}
                 {status === 'error' && (
                   <div className="flex items-center justify-between rounded-lg px-4 py-3" style={{ background: 'rgba(26,26,26,0.08)' }}>
-                    <span className="font-mono-jet" style={{ fontSize: '10px', color: '#666' }}>
+                    <span className="font-mono" style={{ fontSize: '10px', color: '#666' }}>
                       Send failed — try{' '}
                       <button type="button" onClick={copyEmail} className="underline hover:opacity-70" style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', font: 'inherit' }}>
                         {copied ? 'COPIED!' : CONTACT_EMAIL}
@@ -234,7 +234,7 @@ export default function Contact() {
                     <button
                       type="button"
                       onClick={handleRetry}
-                      className="font-mono-jet text-xs tracking-widest px-3 py-1.5 rounded-lg transition-opacity hover:opacity-70"
+                      className="font-mono text-xs tracking-widest px-3 py-1.5 rounded-lg transition-opacity hover:opacity-70"
                       style={{ background: '#1A1A1A', color: '#F5F0E8', fontSize: '10px', border: 'none', cursor: 'pointer' }}
                     >
                       RETRY
@@ -244,7 +244,7 @@ export default function Contact() {
 
                 {/* Submit */}
                 <div className="flex items-center justify-between pt-1">
-                  <span className="font-mono-jet text-xs" style={{ color: '#aaa', fontSize: '10px' }}>
+                  <span className="font-mono text-xs" style={{ color: '#aaa', fontSize: '10px' }}>
                     {status !== 'error' && (
                       <>
                         Or email:{' '}
@@ -258,7 +258,7 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={status === 'sending'}
-                      className="flex items-center gap-2 rounded-xl px-5 py-3 font-mono-jet text-xs tracking-widest transition-opacity hover:opacity-80"
+                      className="flex items-center gap-2 rounded-xl px-5 py-3 font-mono text-xs tracking-widest transition-opacity hover:opacity-80"
                       style={{
                         background: '#1A1A1A',
                         color: '#F5F0E8',

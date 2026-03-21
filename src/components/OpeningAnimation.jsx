@@ -140,7 +140,7 @@ export default function OpeningAnimation({ onComplete }) {
         >
           {/* Top */}
           <div className="px-6 pt-7 pb-3 text-center">
-            <div className="font-mono-jet text-xs tracking-[0.2em] uppercase mb-1" style={{ color: '#666' }}>
+            <div className="font-mono text-xs tracking-[0.2em] uppercase mb-1" style={{ color: '#666' }}>
               Admit One
             </div>
             <div
@@ -157,7 +157,7 @@ export default function OpeningAnimation({ onComplete }) {
           {/* Bottom */}
           <div className="px-6 py-4 text-center">
             <div
-              className="font-mono-jet tracking-[0.15em] uppercase"
+              className="font-mono tracking-[0.15em] uppercase"
               style={{ color: '#444', fontSize: '10px' }}
             >
               EDITOR &nbsp;·&nbsp; WRITER &nbsp;·&nbsp; COLORIST &nbsp;·&nbsp; VIBE CODE NOOB
@@ -167,7 +167,7 @@ export default function OpeningAnimation({ onComplete }) {
 
         {/* Click hint */}
         <div
-          className="text-center mt-3 font-mono-jet"
+          className="text-center mt-3 font-mono"
           style={{ fontSize: '10px', color: '#999', letterSpacing: '0.15em' }}
         >
           CLICK TO ENTER

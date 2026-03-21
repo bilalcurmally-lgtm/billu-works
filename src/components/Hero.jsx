@@ -49,7 +49,7 @@ export default function Hero() {
   // Pre-check hero portrait so we can hide the container if it 404s
   useEffect(() => {
     const img = new Image()
-    img.src = '/images/hero-portrait.jpg'
+    img.src = '/images/hero-portrait.png'
     img.onerror = () => setPortraitLoaded(false)
   }, [])
 
@@ -99,7 +99,6 @@ export default function Hero() {
 
   const lines = [
     { text: "Not your basic storyteller." },
-    { text: "Edit \u2022 Color \u2022 Write" },
     { text: "Weird is the point." },
   ]
 
@@ -120,7 +119,7 @@ export default function Hero() {
             className="inline-block w-2 h-2 rounded-full"
             style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite' }}
           />
-          <span className="font-mono-jet text-xs" style={{ color: '#aaa', fontSize: '11px' }}>
+          <span className="font-mono text-xs" style={{ color: '#aaa', fontSize: '11px' }}>
             Let's connect and exchange ideas.
           </span>
         </div>
@@ -157,7 +156,7 @@ export default function Hero() {
 
           <div
             ref={el => linesRef.current[lines.length + 1] = el}
-            className="font-mono-jet"
+            className="font-mono"
             style={{ color: '#aaa', fontSize: '12px', lineHeight: 1.7, letterSpacing: '0.05em' }}
           >
             <div>Let's connect and exchange ideas.</div>
@@ -165,34 +164,38 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Hero image — right side, atmospheric ghost, not a portrait placement */}
+        {/* Hero image — right side, Resolve-masked PNG with lighten blend */}
         {portraitLoaded && <div
-          className="absolute top-0 bottom-0 right-0"
+          ref={imageRef}
+          className="absolute pointer-events-none"
           style={{
-            left: '25%',
-            overflow: 'hidden',
-            WebkitMaskImage: 'radial-gradient(ellipse 58% 52% at 68% 44%, black 38%, transparent 72%)',
-            maskImage: 'radial-gradient(ellipse 58% 52% at 68% 44%, black 38%, transparent 72%)',
+            top: 0,
+            bottom: 0,
+            left: '35%',
+            right: '-8%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
           }}
         >
-          <div
-            ref={imageRef}
-            className="w-full h-full"
+          <img
+            src="/images/hero-portrait.png"
+            alt=""
             style={{
-              backgroundImage: 'url(/images/hero-portrait.jpg)',
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right center',
-              filter: 'brightness(0.6) contrast(1.1) saturate(0.5)',
+              height: '100%',
+              width: 'auto',
+              objectFit: 'contain',
+              objectPosition: 'right center',
+              filter: 'brightness(0.75) contrast(1.1)',
+              mixBlendMode: 'lighten',
             }}
           />
-          {/* Film grain overlay on portrait */}
+          {/* Bottom fade overlay to blend legs seamlessly */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute left-0 right-0 bottom-0 pointer-events-none"
             style={{
-              backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E\")",
-              opacity: 0.06,
-              mixBlendMode: 'overlay',
+              height: '25%',
+              background: 'linear-gradient(to bottom, transparent, #080808)',
             }}
           />
         </div>}
@@ -207,7 +210,7 @@ export default function Hero() {
           <div key={stat.label} className="flex items-center">
             <div className="py-4 pr-6 md:pr-10">
               <div
-                className="font-mono-jet font-medium"
+                className="font-mono font-medium"
                 style={{
                   color: '#F5F5F0',
                   fontSize: stat.value.length > 4
@@ -218,7 +221,7 @@ export default function Hero() {
               >
                 <AnimatedStat stat={stat} prefersReduced={prefersReduced} />
               </div>
-              <div className="font-mono-jet mt-0.5" style={{ color: '#999', fontSize: '11px', letterSpacing: '0.1em' }}>
+              <div className="font-mono mt-0.5" style={{ color: '#999', fontSize: '11px', letterSpacing: '0.1em' }}>
                 {stat.label}
               </div>
             </div>

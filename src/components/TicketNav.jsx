@@ -191,7 +191,7 @@ export default function TicketNav() {
                   style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.8)' }}
                 />
               </div>
-              <span className="font-mono-jet font-medium" style={{ fontSize: '11px', letterSpacing: '0.06em', color: '#1A1A1A', whiteSpace: 'nowrap' }}>
+              <span className="font-mono font-medium" style={{ fontSize: '11px', letterSpacing: '0.06em', color: '#1A1A1A', whiteSpace: 'nowrap' }}>
                 billu.works
               </span>
             </div>
@@ -215,7 +215,7 @@ export default function TicketNav() {
 
           {/* Bottom metadata row */}
           <div
-            className="flex items-center font-mono-jet"
+            className="flex items-center font-mono"
             style={{ borderTop: '1px solid rgba(26,26,26,0.12)', fontSize: '9px', letterSpacing: '0.12em', color: '#888' }}
           >
             <div className="flex-1 text-center py-1.5" style={{ borderRight: '1px solid rgba(26,26,26,0.12)' }}>
@@ -257,7 +257,7 @@ export default function TicketNav() {
 
         {/* Header */}
         <div className="flex items-center justify-between px-7 pt-7 pb-5">
-          <span className="font-mono-jet" style={{ fontSize: '11px', letterSpacing: '0.12em', color: '#888' }}>
+          <span className="font-mono" style={{ fontSize: '11px', letterSpacing: '0.12em', color: '#888' }}>
             billu.works
           </span>
           <button
@@ -293,7 +293,7 @@ export default function TicketNav() {
                 onClick={() => scrollTo(item.id)}
                 className="flex items-baseline gap-4 group text-left py-1 hover:opacity-50 transition-all"
               >
-                <span className="font-mono-jet" style={{
+                <span className="font-mono" style={{
                   fontSize: '12px',
                   color: isActive ? '#E8E2D4' : '#999',
                   letterSpacing: '0.05em',
@@ -324,7 +324,7 @@ export default function TicketNav() {
 
         {/* Footer */}
         <div className="px-7 py-4">
-          <span className="font-mono-jet" style={{ fontSize: '9px', letterSpacing: '0.14em', color: '#888' }}>
+          <span className="font-mono" style={{ fontSize: '9px', letterSpacing: '0.14em', color: '#888' }}>
             ©2025. BILAL CURMALLY. ALL RIGHTS RESERVED.
           </span>
         </div>

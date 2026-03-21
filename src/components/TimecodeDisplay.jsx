@@ -65,7 +65,7 @@ export default function TimecodeDisplay() {
       style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.4s' }}
     >
       <div
-        className="font-mono-jet"
+        className="font-mono"
         style={{
           fontSize: '10px',
           color: '#333',

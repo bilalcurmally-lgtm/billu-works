@@ -17,7 +17,7 @@ export default function NotFound() {
         >
           <div className="px-8 pt-8 pb-4 text-center">
             <div
-              className="font-mono-jet text-xs tracking-[0.2em] uppercase mb-1"
+              className="font-mono text-xs tracking-[0.2em] uppercase mb-1"
               style={{ color: '#666' }}
             >
               Error 404
@@ -34,7 +34,7 @@ export default function NotFound() {
 
           <div className="px-8 py-5 text-center">
             <div
-              className="font-mono-jet tracking-[0.15em] uppercase"
+              className="font-mono tracking-[0.15em] uppercase"
               style={{ color: '#666', fontSize: '10px' }}
             >
               THIS REEL DOESN'T EXIST
@@ -44,7 +44,7 @@ export default function NotFound() {
 
         <a
           href="/"
-          className="inline-flex items-center gap-2 font-mono-jet text-xs tracking-widest px-6 py-3 rounded-xl transition-opacity hover:opacity-80"
+          className="inline-flex items-center gap-2 font-mono text-xs tracking-widest px-6 py-3 rounded-xl transition-opacity hover:opacity-80"
           style={{
             background: '#F5F0E8',
             color: '#1A1A1A',
