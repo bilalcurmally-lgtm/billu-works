@@ -171,8 +171,8 @@ export default function Hero() {
           style={{
             left: '20%',
             overflow: 'hidden',
-            WebkitMaskImage: 'radial-gradient(ellipse 70% 80% at 65% 50%, black 30%, transparent 70%)',
-            maskImage: 'radial-gradient(ellipse 70% 80% at 65% 50%, black 30%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 50% 75% at 72% 48%, black 40%, transparent 80%)',
+            maskImage: 'radial-gradient(ellipse 50% 75% at 72% 48%, black 40%, transparent 80%)',
           }}
         >
           <div
