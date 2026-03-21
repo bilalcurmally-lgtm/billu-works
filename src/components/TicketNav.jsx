@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { X } from 'lucide-react'
 import { useMagneticButton } from '../utils/useMagneticButton'
 import { useReducedMotion } from '../utils/useReducedMotion'
@@ -118,9 +119,28 @@ export default function TicketNav() {
     closeNav()
     setTimeout(() => {
       const el = document.getElementById(id)
-      if (el) {
-        gsap.to(window, { scrollTo: { y: el, offsetY: 0, autoKill: false }, duration: 1.2, ease: 'power2.inOut' })
-      }
+      if (!el) return
+
+      // Kill any in-progress scroll tweens
+      gsap.killTweensOf(window)
+
+      // Flag body so App.jsx skips expensive onUpdate transforms during scroll
+      document.body.classList.add('nav-scrolling')
+
+      // Reset all stacked panels to neutral — prevents blur/scale jank mid-scroll
+      document.querySelectorAll('[data-scroll="stack"]').forEach(panel => {
+        gsap.set(panel, { scale: 1, filter: 'none', opacity: 1 })
+      })
+
+      gsap.to(window, {
+        scrollTo: { y: el, offsetY: 0, autoKill: false },
+        duration: 1.2,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          document.body.classList.remove('nav-scrolling')
+          ScrollTrigger.refresh()
+        }
+      })
     }, 350)
   }
 

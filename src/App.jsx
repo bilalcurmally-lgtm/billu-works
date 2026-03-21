@@ -65,6 +65,8 @@ export default function App() {
           pin: true,
           pinSpacing: false,
           onUpdate: (self) => {
+            // Skip expensive transforms during programmatic nav scrolls
+            if (document.body.classList.contains('nav-scrolling')) return
             const progress = self.progress
             gsap.set(panel, {
               scale: 1 - progress * 0.04,
