@@ -5,7 +5,7 @@ import { useReducedMotion } from '../utils/useReducedMotion'
 
 const STATS = [
   { value: '20+',              label: 'Years',        numeric: 20, suffix: '+' },
-  { value: 'Edit · Color · Write', label: 'The crafts', numeric: null },
+  { value: 'Edit · Color · Write', mobileValue: 'Edit\nColor\nWrite', label: 'The crafts', numeric: null },
   { value: '300+',             label: 'Commercials',  numeric: 300, suffix: '+' },
 ]
 
@@ -35,7 +35,10 @@ function AnimatedStat({ stat, prefersReduced }) {
     return () => observer.disconnect()
   }, [prefersReduced, stat])
 
-  return <span ref={ref}>{stat.numeric ? display : stat.value}</span>
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const textValue = stat.numeric ? display : (isMobile && stat.mobileValue ? stat.mobileValue : stat.value)
+
+  return <span ref={ref} style={stat.mobileValue ? { whiteSpace: 'pre-line' } : undefined}>{textValue}</span>
 }
 
 export default function Hero() {
