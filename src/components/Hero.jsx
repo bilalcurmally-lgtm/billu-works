@@ -130,7 +130,7 @@ export default function Hero() {
       {/* Main content + image */}
       <div className="flex-1 flex items-end pb-16 md:pb-20 relative">
         {/* Text block — bottom left */}
-        <div className="px-6 md:px-12 z-10 relative max-w-2xl">
+        <div className="px-6 md:px-12 pr-20 md:pr-12 z-10 relative max-w-2xl">
           <p
             ref={el => linesRef.current[0] = el}
             className="font-heading mb-3"

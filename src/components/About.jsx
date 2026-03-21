@@ -90,16 +90,57 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="section-panel py-16 px-6 md:px-12"
+      className="section-panel py-8 md:py-16 px-6 md:px-12"
     >
       <div className="max-w-4xl mx-auto">
 
         {/* Section label */}
-        <div className="mb-16 flex items-center gap-4">
-          <span className="font-display text-sm tracking-widest" style={{ color: '#888', fontSize: '14px' }}>
-            ABOUT
-          </span>
-          <div style={{ flex: 1, height: '1px', background: '#1a1a1a' }} />
+        <div className="mb-12">
+          <div className="relative w-full" style={{ background: '#111', borderRadius: '4px', overflow: 'hidden' }}>
+            {/* Top sprocket row */}
+            <div className="flex items-center justify-between px-1" style={{ height: '18px', background: '#0a0a0a', borderBottom: '1px solid #222' }}>
+              {Array.from({ length: 20 }, (_, i) => (
+                <div
+                  key={`t${i}`}
+                  style={{
+                    width: '10px',
+                    height: '7px',
+                    borderRadius: '1.5px',
+                    background: '#080808',
+                    border: '0.5px solid #2a2a2a',
+                    flexShrink: 0,
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Center frame — title area */}
+            <div className="relative flex items-center" style={{ padding: '20px 24px' }}>
+              <h2
+                className="font-display"
+                style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#F5F5F0', letterSpacing: '0.05em', lineHeight: 1, margin: 0 }}
+              >
+                ABOUT
+              </h2>
+            </div>
+
+            {/* Bottom sprocket row */}
+            <div className="flex items-center justify-between px-1" style={{ height: '18px', background: '#0a0a0a', borderTop: '1px solid #222' }}>
+              {Array.from({ length: 20 }, (_, i) => (
+                <div
+                  key={`b${i}`}
+                  style={{
+                    width: '10px',
+                    height: '7px',
+                    borderRadius: '1.5px',
+                    background: '#080808',
+                    border: '0.5px solid #2a2a2a',
+                    flexShrink: 0,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Greeting */}

@@ -208,7 +208,7 @@ export default function Work() {
     <section
       ref={sectionRef}
       id="work"
-      className="section-panel py-16 px-6 md:px-12"
+      className="section-panel py-8 md:py-16 px-6 md:px-12"
     >
       {/* Film strip header — proper 35mm film strip with sprocket holes */}
       <div ref={headerRef} className="mb-12">
