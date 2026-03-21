@@ -159,7 +159,7 @@ export default function OpeningAnimation({ onComplete }) {
           <div className="px-6 py-4 text-center">
             <div
               className="font-mono tracking-[0.15em] uppercase whitespace-nowrap"
-              style={{ color: '#444', fontSize: '9px' }}
+              style={{ color: '#444', fontSize: 'clamp(7px, 2vw, 9px)' }}
             >
               EDITOR &nbsp;·&nbsp; WRITER &nbsp;·&nbsp; COLORIST &nbsp;·&nbsp; VIBE CODE NOOB
             </div>
