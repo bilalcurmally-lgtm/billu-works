@@ -168,7 +168,12 @@ export default function Hero() {
         {/* Hero image — right side, atmospheric ghost, not a portrait placement */}
         {portraitLoaded && <div
           className="absolute top-0 bottom-0 right-0"
-          style={{ left: '35%', overflow: 'hidden' }}
+          style={{
+            left: '20%',
+            overflow: 'hidden',
+            WebkitMaskImage: 'radial-gradient(ellipse 70% 80% at 65% 50%, black 30%, transparent 70%)',
+            maskImage: 'radial-gradient(ellipse 70% 80% at 65% 50%, black 30%, transparent 70%)',
+          }}
         >
           <div
             ref={imageRef}
@@ -178,7 +183,7 @@ export default function Hero() {
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right center',
-              filter: 'brightness(0.55) contrast(1.1) saturate(0.6)',
+              filter: 'brightness(0.5) contrast(1.15) saturate(0.5)',
             }}
           />
           {/* Film grain overlay on portrait */}
@@ -188,13 +193,6 @@ export default function Hero() {
               backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E\")",
               opacity: 0.06,
               mixBlendMode: 'overlay',
-            }}
-          />
-          {/* Vignette — fade left edge into background so text stays readable */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'linear-gradient(to right, #080808 0%, rgba(8,8,8,0.6) 25%, transparent 50%, transparent 85%, rgba(8,8,8,0.4) 100%), linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, transparent 15%, transparent 85%, rgba(8,8,8,0.5) 100%)',
             }}
           />
         </div>}
