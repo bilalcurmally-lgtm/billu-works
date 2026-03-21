@@ -112,11 +112,11 @@ export default function Hero() {
       style={{ minHeight: '100dvh' }}
     >
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 md:px-12 pt-7">
+      <div className="px-6 md:px-12 pt-7">
         <span className="font-heading text-sm tracking-tight" style={{ color: '#999' }}>
           billu.works
         </span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-1">
           <span
             className="inline-block w-2 h-2 rounded-full"
             style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite' }}
