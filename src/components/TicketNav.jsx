@@ -119,7 +119,7 @@ export default function TicketNav() {
     setTimeout(() => {
       const el = document.getElementById(id)
       if (el) {
-        gsap.to(window, { scrollTo: { y: el, offsetY: 0 }, duration: 1, ease: 'power3.inOut' })
+        gsap.to(window, { scrollTo: { y: el, offsetY: 0, autoKill: false }, duration: 1.2, ease: 'power2.inOut' })
       }
     }, 350)
   }

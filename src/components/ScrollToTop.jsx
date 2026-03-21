@@ -31,9 +31,9 @@ export default function ScrollToTop() {
       window.scrollTo(0, 0)
     } else {
       tweenRef.current = gsap.to(window, {
-        scrollTo: { y: 0 },
-        duration: 1,
-        ease: 'power3.inOut',
+        scrollTo: { y: 0, autoKill: false },
+        duration: 1.2,
+        ease: 'power2.inOut',
       })
     }
   }

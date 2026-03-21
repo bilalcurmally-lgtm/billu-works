@@ -13,7 +13,7 @@ html {
   background: #080808;
   color: #F5F5F0;
   color-scheme: dark;
-  scroll-behavior: smooth;
+  /* scroll-behavior handled by GSAP ScrollToPlugin — CSS smooth conflicts with it */
   /* Force sRGB color space — prevents Chrome/Edge/Firefox
      from applying different color profiles to the same hex values */
   forced-color-adjust: none;
