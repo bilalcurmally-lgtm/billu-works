@@ -67,7 +67,7 @@ function ProjectCard({ project, index, prefersReduced, isTouch, onOpenLightbox }
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpenLightbox(project) } }}
       aria-label={`View ${project.title} project details`}
       style={{
-        height: 'clamp(400px, 60vh, 560px)',
+        height: 'clamp(420px, 65vh, 600px)',
         background: showGradient ? project.gradient : '#111111',
         textDecoration: 'none',
       }}
@@ -258,7 +258,7 @@ export default function Work() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-6 md:gap-8">
         {projects.map((project, i) => (
           <div key={project.id} ref={el => wrapperRefs.current[i] = el}>
             <ProjectCard

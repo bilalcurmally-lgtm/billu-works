@@ -175,10 +175,10 @@ export default function Hero() {
             className="w-full h-full"
             style={{
               backgroundImage: 'url(/images/hero-portrait.jpg)',
-              backgroundSize: 'clamp(100%, 85vw, 85%)',
+              backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center 20%',
-              filter: 'brightness(0.4) contrast(1.1) saturate(0.5)',
+              filter: 'brightness(0.55) contrast(1.1) saturate(0.6)',
             }}
           />
           {/* Film grain overlay on portrait */}
@@ -186,22 +186,22 @@ export default function Hero() {
             className="absolute inset-0 pointer-events-none"
             style={{
               backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E\")",
-              opacity: 0.12,
+              opacity: 0.06,
               mixBlendMode: 'overlay',
             }}
           />
-          {/* Radial vignette — tight pool of ghost light, everything else is darkness */}
+          {/* Desktop vignette — fade edges, keep center portrait visible */}
           <div
             className="absolute inset-0 pointer-events-none hidden md:block"
             style={{
-              background: 'radial-gradient(ellipse 55% 50% at 55% 35%, transparent 0%, rgba(8,8,8,0.4) 35%, #080808 70%)',
+              background: 'radial-gradient(ellipse 60% 55% at 55% 40%, transparent 0%, rgba(8,8,8,0.25) 45%, #080808 80%)',
             }}
           />
-          {/* Mobile vignette — heavier left fade so text stays readable */}
+          {/* Mobile vignette — left fade for text readability, keep portrait visible */}
           <div
             className="absolute inset-0 pointer-events-none md:hidden"
             style={{
-              background: 'linear-gradient(to right, #080808 0%, rgba(8,8,8,0.55) 35%, rgba(8,8,8,0.15) 65%, #080808 100%), linear-gradient(to top, #080808 0%, transparent 35%, transparent 65%, #080808 100%)',
+              background: 'linear-gradient(to right, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.3) 40%, transparent 60%, rgba(8,8,8,0.6) 100%), linear-gradient(to top, rgba(8,8,8,0.7) 0%, transparent 30%, transparent 70%, rgba(8,8,8,0.5) 100%)',
             }}
           />
         </div>}
