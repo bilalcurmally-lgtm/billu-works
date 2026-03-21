@@ -18,7 +18,23 @@
       "WebFetch(domain:vimeo.com)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Skill(qa)"
+      "Skill(qa)",
+      "mcp__plugin_playwright_playwright__browser_resize",
+      "Bash(npm run:*)",
+      "Bash(git status:*)",
+      "Bash(where yt-dlp:*)",
+      "Bash(where youtube-dl:*)",
+      "Bash(pip show:*)",
+      "Bash(where ffmpeg:*)",
+      "Bash(yt-dlp --list-formats \"https://www.youtube.com/watch?v=uRnlxCWKoFg\")",
+      "Bash(yt-dlp -f 18 --no-update -o \"temp_fpt.mp4\" \"https://www.youtube.com/watch?v=uRnlxCWKoFg\")",
+      "Bash(yt-dlp --no-update --cookies-from-browser chrome -f 18 -o \"temp_fpt.mp4\" \"https://www.youtube.com/watch?v=uRnlxCWKoFg\")",
+      "mcp__plugin_playwright_playwright__browser_run_code",
+      "Bash(npx skills:*)",
+      "Read(//c/Users/Bilal/.claude/skills/gstack/plan-design-review/**)",
+      "Read(//c/Users/Bilal/.claude/skills/gstack/**)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(list\\(d.get\\(''''skills'''',{}\\).keys\\(\\)\\)[:20] if isinstance\\(d.get\\(''''skills''''\\),dict\\) else ''''no skills key'''', indent=2\\)\\)\")",
+      "Skill(plan-ceo-review)"
     ]
   }
 }
