@@ -155,13 +155,16 @@ export default function OpeningAnimation({ onComplete }) {
           {/* Perforation with edge notches */}
           <div className="ticket-perforation mx-0 px-4" style={{ marginLeft: 0, marginRight: 0 }} />
 
-          {/* Bottom — hidden on mobile, text won't fit */}
-          <div className="hidden md:block px-6 py-4 text-center">
+          {/* Bottom */}
+          <div className="px-6 py-4 text-center">
             <div
               className="font-mono tracking-[0.15em] uppercase whitespace-nowrap"
               style={{ color: '#444', fontSize: '9px' }}
             >
-              EDITOR &nbsp;·&nbsp; WRITER &nbsp;·&nbsp; COLORIST &nbsp;·&nbsp; VIBE CODE NOOB
+              EDITOR &nbsp;·&nbsp; WRITER &nbsp;·&nbsp; COLORIST
+              <span className="hidden md:inline">
+                &nbsp;·&nbsp; VIBE CODE NOOB
+              </span>
             </div>
           </div>
         </div>

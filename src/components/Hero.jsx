@@ -210,7 +210,7 @@ export default function Hero() {
           <div key={stat.label} className="flex items-center">
             <div className="py-4 pr-6 md:pr-10">
               <div
-                className="font-mono font-medium"
+                className="font-mono font-medium text-left"
                 style={{
                   color: '#F5F5F0',
                   fontSize: stat.value.length > 4
