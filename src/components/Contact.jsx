@@ -181,7 +181,7 @@ export default function Contact() {
                     name="name"
                     value={form.name}
                     onChange={handleChange}
-                    placeholder="e.g. Arjun Sharma"
+                    placeholder="Your name"
                     required
                     style={{ ...INPUT_STYLE, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A' }}
                   />

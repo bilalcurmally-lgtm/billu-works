@@ -213,9 +213,9 @@ export default function TicketNav() {
             </div>
           </div>
 
-          {/* Bottom metadata row */}
+          {/* Bottom metadata row — hidden on mobile */}
           <div
-            className="flex items-center font-mono"
+            className="hidden md:flex items-center font-mono"
             style={{ borderTop: '1px solid rgba(26,26,26,0.12)', fontSize: '9px', letterSpacing: '0.12em', color: '#888' }}
           >
             <div className="flex-1 text-center py-1.5" style={{ borderRight: '1px solid rgba(26,26,26,0.12)' }}>

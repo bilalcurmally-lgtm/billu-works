@@ -39,10 +39,11 @@ function AnimatedStat({ stat, prefersReduced }) {
 }
 
 export default function Hero() {
-  const sectionRef = useRef(null)
-  const imageRef   = useRef(null)
-  const linesRef   = useRef([])
-  const scrollRef  = useRef(null)
+  const sectionRef    = useRef(null)
+  const imageWrapRef  = useRef(null)
+  const imageRef      = useRef(null)
+  const linesRef      = useRef([])
+  const scrollRef     = useRef(null)
   const prefersReduced = useReducedMotion()
   const [portraitLoaded, setPortraitLoaded] = useState(true)
 
@@ -66,7 +67,8 @@ export default function Hero() {
           delay: 0.2,
         })
 
-        // Parallax on hero image
+        // Parallax on hero image (move img inside container, not the container itself,
+        // so the bottom-fade overlay stays anchored and seams don't appear)
         ScrollTrigger.create({
           trigger: sectionRef.current,
           start: 'top top',
@@ -74,7 +76,7 @@ export default function Hero() {
           scrub: true,
           onUpdate: (self) => {
             if (imageRef.current) {
-              gsap.set(imageRef.current, { y: self.progress * 80 })
+              gsap.set(imageRef.current, { y: self.progress * 60 })
             }
           },
         })
@@ -166,27 +168,25 @@ export default function Hero() {
 
         {/* Hero image — right side, Resolve-masked PNG with lighten blend */}
         {portraitLoaded && <div
-          ref={imageRef}
-          className="absolute pointer-events-none"
+          ref={imageWrapRef}
+          className="absolute pointer-events-none overflow-hidden hero-portrait-wrap"
           style={{
             top: 0,
             bottom: 0,
-            left: '35%',
-            right: '-8%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'flex-end',
           }}
         >
           <img
+            ref={imageRef}
             src="/images/hero-portrait.png"
             alt=""
+            className="hero-portrait-img"
             style={{
               height: '100%',
               width: 'auto',
               objectFit: 'contain',
-              objectPosition: 'right center',
-              filter: 'brightness(0.75) contrast(1.1)',
               mixBlendMode: 'lighten',
             }}
           />
@@ -194,7 +194,7 @@ export default function Hero() {
           <div
             className="absolute left-0 right-0 bottom-0 pointer-events-none"
             style={{
-              height: '25%',
+              height: '30%',
               background: 'linear-gradient(to bottom, transparent, #080808)',
             }}
           />

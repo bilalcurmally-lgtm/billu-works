@@ -89,8 +89,9 @@ export default function OpeningAnimation({ onComplete }) {
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: "url('/images/side-profile.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 20%',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center',
         }}
       />
 

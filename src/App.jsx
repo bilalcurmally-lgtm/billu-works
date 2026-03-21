@@ -127,16 +127,16 @@ export default function App() {
       <ScrollToTop />
 
       <main id="main-content">
-        <div ref={el => sectionsRef.current[0] = el} data-scroll="stack" style={{ position: 'relative', zIndex: 1, background: '#080808', willChange: 'transform, filter, opacity' }}>
+        <div ref={el => sectionsRef.current[0] = el} data-scroll="stack" style={{ position: 'relative', zIndex: isTouch ? undefined : 1, background: '#080808', willChange: isTouch ? undefined : 'transform, filter, opacity' }}>
           <Hero />
         </div>
-        <div ref={el => sectionsRef.current[1] = el} data-scroll="self" style={{ position: 'relative', zIndex: 2, background: '#080808' }}>
+        <div ref={el => sectionsRef.current[1] = el} data-scroll="self" style={{ position: 'relative', zIndex: isTouch ? undefined : 2, background: '#080808' }}>
           <Work />
         </div>
-        <div ref={el => sectionsRef.current[2] = el} data-scroll="stack" style={{ position: 'relative', zIndex: 3, background: '#080808', willChange: 'transform, filter, opacity' }}>
+        <div ref={el => sectionsRef.current[2] = el} data-scroll="stack" style={{ position: 'relative', zIndex: isTouch ? undefined : 3, background: '#080808', willChange: isTouch ? undefined : 'transform, filter, opacity' }}>
           <About />
         </div>
-        <div ref={el => sectionsRef.current[3] = el} data-scroll="stack" style={{ position: 'relative', zIndex: 4, background: '#080808', willChange: 'transform, filter, opacity' }}>
+        <div ref={el => sectionsRef.current[3] = el} data-scroll="stack" style={{ position: 'relative', zIndex: isTouch ? undefined : 4, background: '#080808', willChange: isTouch ? undefined : 'transform, filter, opacity' }}>
           <Contact />
         </div>
         <Footer />

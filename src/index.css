@@ -180,6 +180,26 @@ textarea:focus-visible {
 /* ─── Selection ──────────────────────────────────────────── */
 ::selection { background: #F5F0E8; color: #1A1A1A; }
 
+/* ─── Hero Portrait Responsive ───────────────────────────── */
+.hero-portrait-wrap {
+  left: 35%;
+  right: -8%;
+}
+.hero-portrait-img {
+  object-position: right center;
+  filter: brightness(0.75) contrast(1.1);
+}
+@media (max-width: 768px) {
+  .hero-portrait-wrap {
+    left: 5%;
+    right: -5%;
+  }
+  .hero-portrait-img {
+    object-position: center center;
+    filter: brightness(0.45) contrast(1.1);
+  }
+}
+
 /* ─── Print Stylesheet ──────────────────────────────────── */
 @media print {
   body::before,

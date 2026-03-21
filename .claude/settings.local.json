@@ -38,7 +38,9 @@
       "Bash(timeout 3)",
       "WebFetch(domain:billu.works)",
       "Bash(identify \"F:/billu-works/public/images/og-card.jpg\")",
-      "Bash(python3 -c \"from PIL import Image; img=Image.open\\(''F:/billu-works/public/images/og-card.jpg''\\); print\\(f''{img.size[0]}x{img.size[1]}''\\)\")"
+      "Bash(python3 -c \"from PIL import Image; img=Image.open\\(''F:/billu-works/public/images/og-card.jpg''\\); print\\(f''{img.size[0]}x{img.size[1]}''\\)\")",
+      "Bash(python3 -c \"from PIL import Image; img=Image.open\\(''F:/billu-works/public/images/side-profile.jpg''\\); print\\(f''{img.size[0]}x{img.size[1]}''\\)\")",
+      "Bash(identify \"F:/billu-works/public/images/side-profile.jpg\")"
     ]
   }
 }
