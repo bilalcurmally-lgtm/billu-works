@@ -169,10 +169,10 @@ export default function Hero() {
         {portraitLoaded && <div
           className="absolute top-0 bottom-0 right-0"
           style={{
-            left: '20%',
+            left: '25%',
             overflow: 'hidden',
-            WebkitMaskImage: 'radial-gradient(ellipse 50% 75% at 72% 48%, black 40%, transparent 80%)',
-            maskImage: 'radial-gradient(ellipse 50% 75% at 72% 48%, black 40%, transparent 80%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 58% 52% at 68% 44%, black 38%, transparent 72%)',
+            maskImage: 'radial-gradient(ellipse 58% 52% at 68% 44%, black 38%, transparent 72%)',
           }}
         >
           <div
@@ -183,7 +183,7 @@ export default function Hero() {
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'right center',
-              filter: 'brightness(0.5) contrast(1.15) saturate(0.5)',
+              filter: 'brightness(0.6) contrast(1.1) saturate(0.5)',
             }}
           />
           {/* Film grain overlay on portrait */}
