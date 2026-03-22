@@ -113,6 +113,7 @@ export default function Contact() {
       ref={sectionRef}
       id="contact"
       className="section-panel py-16 px-6 md:px-12"
+      style={{ minHeight: '100dvh', overflow: 'hidden' }}
     >
       <div className="max-w-2xl mx-auto">
 
