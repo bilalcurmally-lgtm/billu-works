@@ -12,11 +12,11 @@ test.describe('Opening Animation & Site Entry', () => {
     const overlay = page.locator('.fixed.inset-0.z-\\[9999\\]')
     await expect(overlay).toBeVisible()
     // BILLU text is present
-    await expect(page.getByText('BILLU')).toBeVisible()
+    await expect(page.getByText('BILLU', { exact: true })).toBeVisible()
     // Ticket with BILAL CURMALLY
     await expect(page.getByText('BILAL CURMALLY')).toBeVisible()
-    // CLICK TO ENTER hint
-    await expect(page.getByText('CLICK TO ENTER')).toBeVisible()
+    // TEAR TO ENTER hint
+    await expect(page.getByText('TEAR TO ENTER')).toBeVisible()
   })
 
   test('clicking ticket reveals main site', async ({ page }) => {

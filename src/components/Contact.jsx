@@ -120,13 +120,13 @@ export default function Contact() {
         {/* Headline */}
         <div ref={headRef} className="mb-16 text-center">
           <h2 className="font-heading font-light" style={{ fontSize: 'clamp(32px, 5vw, 56px)', color: '#F5F5F0', lineHeight: 1.2, margin: 0 }}>
-            Drop me a line.
+            Let's make something
           </h2>
           <div
             className="font-drama italic"
             style={{ fontSize: 'clamp(36px, 5.5vw, 64px)', color: '#F5F0E8', lineHeight: 1.15 }}
           >
-            Let's ramble together.
+            worth watching.
           </div>
         </div>
 
@@ -139,7 +139,7 @@ export default function Contact() {
             >
               <div className="font-display text-3xl mb-2">TICKET RECEIVED</div>
               <p className="font-mono text-xs tracking-widest" style={{ color: '#666' }}>
-                I'll be in touch soon. Thanks, {submittedName || 'friend'}.
+                Thanks, {submittedName || 'friend'}. I'll get back to you soon.
               </p>
             </div>
           ) : (
@@ -214,7 +214,7 @@ export default function Contact() {
                     value={form.message}
                     onChange={handleChange}
                     rows={4}
-                    placeholder="What's on your mind?"
+                    placeholder="The project, the deadline, and a budget if you have one."
                     required
                     maxLength={2000}
                     style={{ ...INPUT_STYLE, background: 'rgba(26,26,26,0.06)', border: '1px solid rgba(26,26,26,0.15)', color: '#1A1A1A', resize: 'vertical', minHeight: '110px' }}
@@ -227,7 +227,7 @@ export default function Contact() {
                 {status === 'error' && (
                   <div className="flex items-center justify-between rounded-lg px-4 py-3" style={{ background: 'rgba(26,26,26,0.08)' }}>
                     <span className="font-mono" style={{ fontSize: '10px', color: '#666' }}>
-                      Send failed — try{' '}
+                      Send failed. Email me at{' '}
                       <button type="button" onClick={copyEmail} className="underline hover:opacity-70" style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', font: 'inherit' }}>
                         {copied ? 'COPIED!' : CONTACT_EMAIL}
                       </button>
@@ -268,7 +268,7 @@ export default function Contact() {
                         cursor: status === 'sending' ? 'not-allowed' : 'pointer',
                       }}
                     >
-                      {status === 'sending' ? 'SENDING...' : 'GET IN TOUCH'}
+                      {status === 'sending' ? 'SENDING...' : 'SEND IT'}
                       <Send size={12} />
                     </button>
                   </div>

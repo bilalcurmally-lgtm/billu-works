@@ -149,6 +149,29 @@ body::before {
   outline: none;
 }
 
+/* ─── Project Card Hover ─────────────────────────────────── */
+.project-card .project-still {
+  filter: brightness(0.7) contrast(1.05);
+  transition: filter 0.5s ease, transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.project-card:hover .project-still,
+.project-card:focus-visible .project-still {
+  filter: brightness(0.85) contrast(1.05);
+  transform: scale(1.03);
+}
+.project-card .play-stub,
+.project-card .project-caption {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.project-card:hover .play-stub { transform: scale(1.06); }
+.project-card:hover .project-caption { transform: translateY(-6px); }
+
+.reel-index-btn:hover { color: #F5F5F0 !important; }
+.reel-index-btn:focus-visible {
+  outline: 1px solid #F5F0E8;
+  outline-offset: 4px;
+}
+
 /* ─── Skip to Content ────────────────────────────────────── */
 .skip-to-content {
   position: fixed;

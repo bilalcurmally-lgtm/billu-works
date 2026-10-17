@@ -65,7 +65,7 @@ export default function Footer() {
         style={{ borderTop: '1px solid #111' }}
       >
         <div className="flex items-center justify-between w-full">
-          <span className="font-mono" style={{ color: '#555', fontSize: '9px', letterSpacing: '0.08em' }}>
+          <span className="font-mono" style={{ color: '#777', fontSize: '10px', letterSpacing: '0.08em' }}>
             vibe coded by myself for myself with claude cli
           </span>
           <div className="flex items-center gap-2">

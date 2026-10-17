@@ -103,8 +103,8 @@ export default function Hero() {
   }, [prefersReduced])
 
   const lines = [
-    { text: "Not your basic storyteller." },
-    { text: "Weird is the point." },
+    { text: "I cut commercials and grade them." },
+    { text: "Now I'm learning to build the tools." },
   ]
 
   return (
@@ -125,7 +125,7 @@ export default function Hero() {
             style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite' }}
           />
           <span className="font-mono text-xs" style={{ color: '#aaa', fontSize: '11px' }}>
-            Let's connect and exchange ideas.
+            Taking on new projects
           </span>
         </div>
       </div>
@@ -139,7 +139,7 @@ export default function Hero() {
             className="font-heading mb-3"
             style={{ color: '#999', fontSize: '14px', letterSpacing: '0.05em' }}
           >
-            Hi, I'm Bilal Curmally
+            Bilal Curmally · Editor &amp; Colorist
           </p>
 
           <div className="mb-6">
@@ -164,8 +164,8 @@ export default function Hero() {
             className="font-mono"
             style={{ color: '#aaa', fontSize: '12px', lineHeight: 1.7, letterSpacing: '0.05em' }}
           >
-            <div>Let's connect and exchange ideas.</div>
-            <div>Building things that shouldn't exist.</div>
+            <div>Karachi-based. Clients in Pakistan and abroad.</div>
+            <div>Lately: building things that probably shouldn't exist.</div>
           </div>
         </div>
 

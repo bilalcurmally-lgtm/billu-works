@@ -33,6 +33,6 @@ test.describe('Footer Timecode', () => {
 
   test('footer shows copyright', async ({ page }) => {
     await page.locator('footer').scrollIntoViewIfNeeded()
-    await expect(page.getByText('©2026 Bilal Curmally')).toBeVisible()
+    await expect(page.locator('footer').getByText('©2026 Bilal Curmally')).toBeVisible()
   })
 })

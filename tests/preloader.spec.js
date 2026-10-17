@@ -28,6 +28,6 @@ test.describe('Preloader', () => {
   test('preloader completes and transitions to intro', async ({ page }) => {
     await page.goto('/')
     // Wait for preloader to finish — should see BILLU or the intro within 6 seconds
-    await expect(page.getByText('BILLU')).toBeVisible({ timeout: 8000 })
+    await expect(page.getByText('BILLU', { exact: true })).toBeVisible({ timeout: 8000 })
   })
 })

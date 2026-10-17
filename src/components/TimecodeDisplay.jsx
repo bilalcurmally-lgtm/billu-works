@@ -42,7 +42,8 @@ export default function TimecodeDisplay() {
       if (!el) return null
       const obs = new IntersectionObserver(
         ([entry]) => { if (entry.isIntersecting) setCurrent(id) },
-        { threshold: 0.4 }
+        // A line across the middle of the viewport: works for sections taller than the screen
+        { rootMargin: '-50% 0px -50% 0px' }
       )
       obs.observe(el)
       return obs
@@ -62,7 +63,8 @@ export default function TimecodeDisplay() {
   return (
     <div
       className="fixed bottom-7 left-6 z-[9990] pointer-events-none"
-      style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.4s' }}
+      // Hidden on the hero, where it would sit on top of the stats row
+      style={{ opacity: visible && current !== 'hero' ? 1 : 0, transition: 'opacity 0.4s' }}
     >
       <div
         className="font-mono"

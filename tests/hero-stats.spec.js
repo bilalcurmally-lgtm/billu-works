@@ -10,9 +10,9 @@ test.describe('Hero Stats & Portrait', () => {
   })
 
   test('stats row shows three items', async ({ page }) => {
-    await expect(page.getByText('Years')).toBeVisible()
-    await expect(page.getByText('The crafts')).toBeVisible()
-    await expect(page.getByText('Commercials')).toBeVisible()
+    await expect(page.getByText('Years', { exact: true })).toBeVisible()
+    await expect(page.getByText('The crafts', { exact: true })).toBeVisible()
+    await expect(page.getByText('Commercials', { exact: true })).toBeVisible()
   })
 
   test('stats show final values after animation', async ({ page }) => {
@@ -23,7 +23,7 @@ test.describe('Hero Stats & Portrait', () => {
   })
 
   test('availability status is shown', async ({ page }) => {
-    await expect(page.getByText("Let's connect and exchange ideas.").first()).toBeVisible()
+    await expect(page.getByText('Taking on new projects').first()).toBeVisible()
   })
 
   test('hero portrait container exists on desktop', async ({ page, browserName }) => {

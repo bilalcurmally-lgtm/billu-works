@@ -18,7 +18,7 @@ test.describe('Contact Form Enhancements', () => {
     await page.locator('input[name="name"]').fill('Test User')
     await page.locator('input[name="email"]').fill('test@example.com')
     await page.locator('textarea[name="message"]').fill('Hello!')
-    await page.getByRole('button', { name: /GET IN TOUCH/i }).click()
+    await page.getByRole('button', { name: /SEND IT/i }).click()
 
     await expect(page.getByText('Send failed')).toBeVisible({ timeout: 5000 })
     await expect(page.getByText('RETRY')).toBeVisible()
@@ -32,13 +32,13 @@ test.describe('Contact Form Enhancements', () => {
     await page.locator('input[name="name"]').fill('Test User')
     await page.locator('input[name="email"]').fill('test@example.com')
     await page.locator('textarea[name="message"]').fill('Hello!')
-    await page.getByRole('button', { name: /GET IN TOUCH/i }).click()
+    await page.getByRole('button', { name: /SEND IT/i }).click()
 
     await expect(page.getByText('RETRY')).toBeVisible({ timeout: 5000 })
     await page.getByText('RETRY').click()
 
     // Form should be back to idle — submit button visible again
-    await expect(page.getByRole('button', { name: /GET IN TOUCH/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /SEND IT/i })).toBeVisible()
   })
 
   test('email copy button shows COPIED! feedback', async ({ page }) => {
@@ -63,7 +63,7 @@ test.describe('Contact Form Enhancements', () => {
     await page.locator('input[name="name"]').fill('Test User')
     await page.locator('input[name="email"]').fill('test@example.com')
     await page.locator('textarea[name="message"]').fill('Hello!')
-    await page.getByRole('button', { name: /GET IN TOUCH/i }).click()
+    await page.getByRole('button', { name: /SEND IT/i }).click()
 
     // Should show error after ~10s timeout
     await expect(page.getByText('Send failed')).toBeVisible({ timeout: 15000 })

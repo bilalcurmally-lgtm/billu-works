@@ -2,6 +2,12 @@ import { useRef, useCallback, useMemo } from 'react'
 
 const lockCount = { current: 0 }
 const savedScrollY = { current: 0 }
+const usedFixedBody = { current: false }
+
+// iOS Safari ignores overflow:hidden on <html>, so touch devices pin the body instead.
+// Desktop keeps the page where it is: pinning the body resets scrollY to 0,
+// which makes every ScrollTrigger (hero pin, stacked work cards) fire again.
+const isCoarsePointer = () => window.matchMedia('(pointer: coarse)').matches
 
 export function useScrollLock() {
   const isLocked = useRef(false)
@@ -11,6 +17,14 @@ export function useScrollLock() {
     isLocked.current = true
 
     if (lockCount.current === 0) {
+      usedFixedBody.current = isCoarsePointer()
+      if (!usedFixedBody.current) {
+        const gutter = window.innerWidth - document.documentElement.clientWidth
+        document.documentElement.style.overflow = 'hidden'
+        if (gutter > 0) document.documentElement.style.paddingRight = `${gutter}px`
+        lockCount.current++
+        return
+      }
       savedScrollY.current = window.scrollY
       document.body.style.position = 'fixed'
       document.body.style.top = `-${savedScrollY.current}px`
@@ -27,6 +41,11 @@ export function useScrollLock() {
     lockCount.current--
 
     if (lockCount.current === 0) {
+      if (!usedFixedBody.current) {
+        document.documentElement.style.overflow = ''
+        document.documentElement.style.paddingRight = ''
+        return
+      }
       document.body.style.position = ''
       document.body.style.top = ''
       document.body.style.left = ''

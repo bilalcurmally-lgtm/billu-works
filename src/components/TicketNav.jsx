@@ -74,7 +74,8 @@ export default function TicketNav() {
           }
         }
       },
-      { threshold: 0.3 }
+      // A line across the middle of the viewport: works for sections taller than the screen
+      { rootMargin: '-50% 0px -50% 0px' }
     )
 
     sections.forEach(s => observer.observe(s))
@@ -310,7 +311,7 @@ export default function TicketNav() {
         {/* Footer */}
         <div className="px-7 py-4">
           <span className="font-mono" style={{ fontSize: '9px', letterSpacing: '0.14em', color: '#888' }}>
-            ©2025. BILAL CURMALLY. ALL RIGHTS RESERVED.
+            ©2026 BILAL CURMALLY. ALL RIGHTS RESERVED.
           </span>
         </div>
       </div>

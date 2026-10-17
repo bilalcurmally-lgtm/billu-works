@@ -34,7 +34,7 @@ test.describe('Contact Form', () => {
     await page.locator('input[name="name"]').fill('Test User')
     await page.locator('input[name="email"]').fill('test@example.com')
     await page.locator('textarea[name="message"]').fill('Hello from Playwright!')
-    await page.getByRole('button', { name: /GET IN TOUCH/i }).click()
+    await page.getByRole('button', { name: /SEND IT/i }).click()
 
     // Should show success with the submitted name
     await expect(page.getByText('TICKET RECEIVED')).toBeVisible({ timeout: 5000 })
@@ -49,7 +49,7 @@ test.describe('Contact Form', () => {
     await page.locator('input[name="name"]').fill('Test User')
     await page.locator('input[name="email"]').fill('test@example.com')
     await page.locator('textarea[name="message"]').fill('Hello!')
-    await page.getByRole('button', { name: /GET IN TOUCH/i }).click()
+    await page.getByRole('button', { name: /SEND IT/i }).click()
 
     // Should show error fallback text
     await expect(page.getByText('Send failed')).toBeVisible({ timeout: 5000 })
