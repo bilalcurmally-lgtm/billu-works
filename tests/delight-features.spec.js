@@ -66,7 +66,7 @@ test.describe('Delight Features', () => {
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
     await page.waitForTimeout(500)
 
-    const sessionEl = page.locator('footer .font-mono-jet', { hasText: /SESSION/ })
+    const sessionEl = page.locator('footer').getByText(/SESSION \d{2}:\d{2}:\d{2}:\d{2}/)
     const text1 = await sessionEl.textContent()
 
     await page.waitForTimeout(1100) // Wait just over 1 second

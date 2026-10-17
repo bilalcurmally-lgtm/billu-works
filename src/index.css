@@ -204,6 +204,9 @@ textarea:focus-visible {
 ::selection { background: #F5F0E8; color: #1A1A1A; }
 
 /* ─── Hero Portrait Responsive ───────────────────────────── */
+/* The portrait bleeds past the right edge on purpose; clip it here so it
+   does not widen the page (mobile browsers ignore body overflow-x) */
+#hero { overflow-x: clip; }
 .hero-portrait-wrap {
   left: 35%;
   right: -8%;

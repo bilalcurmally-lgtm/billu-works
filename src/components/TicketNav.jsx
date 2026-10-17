@@ -51,6 +51,7 @@ export default function TicketNav() {
   const overlayRef   = useRef(null)
   const tlRef        = useRef(null)
   const isAnimating  = useRef(false)
+  const isClosing    = useRef(false)
   const magneticRef  = useMagneticButton(0.25)
   const prefersReduced = useReducedMotion()
   const scrollLock = useScrollLock()
@@ -101,8 +102,11 @@ export default function TicketNav() {
   }
 
   const closeNav = () => {
-    if (isAnimating.current || !open) return
+    if (isClosing.current || !open) return
+    isClosing.current = true
     isAnimating.current = true
+    // A close during the opening animation interrupts it instead of being dropped
+    tlRef.current?.kill()
     scrollLock.unlock()
 
     const tl = gsap.timeline({
@@ -110,6 +114,7 @@ export default function TicketNav() {
         setOpen(false)
         gsap.set(overlayRef.current, { display: 'none' })
         isAnimating.current = false
+        isClosing.current = false
       }
     })
     tl.to(overlayRef.current, { scale: 0.6, opacity: 0, duration: 0.3, ease: 'power3.in', transformOrigin: 'top right' })
