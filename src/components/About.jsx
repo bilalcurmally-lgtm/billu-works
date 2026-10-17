@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { splitWords } from '../utils/splitText'
 import { useReducedMotion } from '../utils/useReducedMotion'
+import ScopeHeader from './ScopeHeader'
 
 const BIO_PARAGRAPHS = [
   'I\u2019ve spent twenty years cutting and grading TV commercials in Pakistan. More than 300 of them, most on deadlines that made no sense.',
@@ -90,53 +91,8 @@ export default function About() {
     >
       <div className="max-w-4xl mx-auto">
 
-        {/* Section label */}
         <div className="mb-12">
-          <div className="relative w-full" style={{ background: '#111', borderRadius: '4px', overflow: 'hidden' }}>
-            {/* Top sprocket row */}
-            <div className="flex items-center justify-between px-1" style={{ height: '18px', background: '#0a0a0a', borderBottom: '1px solid #222' }}>
-              {Array.from({ length: 20 }, (_, i) => (
-                <div
-                  key={`t${i}`}
-                  style={{
-                    width: '10px',
-                    height: '7px',
-                    borderRadius: '1.5px',
-                    background: '#080808',
-                    border: '0.5px solid #2a2a2a',
-                    flexShrink: 0,
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Center frame — title area */}
-            <div className="relative flex items-center" style={{ padding: '20px 24px' }}>
-              <h2
-                className="font-display"
-                style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#F5F5F0', letterSpacing: '0.05em', lineHeight: 1, margin: 0 }}
-              >
-                ABOUT
-              </h2>
-            </div>
-
-            {/* Bottom sprocket row */}
-            <div className="flex items-center justify-between px-1" style={{ height: '18px', background: '#0a0a0a', borderTop: '1px solid #222' }}>
-              {Array.from({ length: 20 }, (_, i) => (
-                <div
-                  key={`b${i}`}
-                  style={{
-                    width: '10px',
-                    height: '7px',
-                    borderRadius: '1.5px',
-                    background: '#080808',
-                    border: '0.5px solid #2a2a2a',
-                    flexShrink: 0,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+          <ScopeHeader title="ABOUT" src="/images/side-profile.jpg" sourceLabel="SRC: BILAL, SIDE PROFILE" />
         </div>
 
         {/* Greeting */}

@@ -103,7 +103,7 @@ export default function Hero() {
   }, [prefersReduced])
 
   const lines = [
-    { text: "I cut commercials and grade them." },
+    { text: "Twenty years of fixing it in post." },
     { text: "Now I'm learning to build the tools." },
   ]
 
@@ -165,7 +165,7 @@ export default function Hero() {
             style={{ color: '#aaa', fontSize: '12px', lineHeight: 1.7, letterSpacing: '0.05em' }}
           >
             <div>Karachi-based. Clients in Pakistan and abroad.</div>
-            <div>Lately: building things that probably shouldn't exist.</div>
+            <div>Lately: learning to integrate AI workflows, patiently.</div>
           </div>
         </div>
 

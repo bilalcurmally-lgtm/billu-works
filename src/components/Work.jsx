@@ -5,8 +5,10 @@ import { Play } from 'lucide-react'
 import { projects } from '../data/projects'
 import { useReducedMotion } from '../utils/useReducedMotion'
 import { useIsTouch } from '../utils/useIsTouch'
+import { settleCurve } from '../utils/settleCurve'
 import ProjectLightbox from './ProjectLightbox'
 import ProjectMeta from './ProjectMeta'
+import ScopeHeader from './ScopeHeader'
 
 // Where stacked cards stick: below the reel index bar, each one a few px lower
 // so the edges of the cards underneath stay visible like a deck of frames.
@@ -166,17 +168,17 @@ export default function Work() {
 
         const next = wrappers[i + 1]
         if (next) {
-          gsap.to(wrapper.firstElementChild, {
-            scale: 0.95,
-            filter: 'blur(8px)',
-            opacity: 0.6,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: next,
-              start: 'top bottom',
-              end: `top ${top + STACK_STEP}px`,
-              scrub: true,
-            },
+          const card = wrapper.firstElementChild
+          const settle = (p) => {
+            const t = settleCurve(p)
+            gsap.set(card, { scale: 1 - t * 0.05, filter: `blur(${t * 8}px)`, opacity: 1 - t * 0.4 })
+          }
+          ScrollTrigger.create({
+            trigger: next,
+            start: 'top bottom',
+            end: `top ${top + STACK_STEP}px`,
+            onUpdate: (self) => settle(self.progress),
+            onLeaveBack: () => settle(0),
           })
         }
         return st
@@ -205,33 +207,14 @@ export default function Work() {
       id="work"
       className="section-panel py-8 md:py-16 px-6 md:px-12"
     >
-      {/* Film strip header — proper 35mm film strip with sprocket holes */}
-      <div ref={headerRef} className="mb-6">
-        <div className="relative w-full" style={{ background: '#111', borderRadius: '4px', overflow: 'hidden' }}>
-          <div className="flex items-center justify-between px-1" style={{ height: '18px', background: '#0a0a0a', borderBottom: '1px solid #222' }}>
-            {Array.from({ length: 20 }, (_, i) => (
-              <div key={`t${i}`} style={{ width: '10px', height: '7px', borderRadius: '1.5px', background: '#080808', border: '0.5px solid #2a2a2a', flexShrink: 0 }} />
-            ))}
-          </div>
-
-          <div className="relative flex items-end justify-between gap-4" style={{ padding: '20px 24px' }}>
-            <h2
-              className="font-display"
-              style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#F5F5F0', letterSpacing: '0.05em', lineHeight: 1, margin: 0 }}
-            >
-              WORK
-            </h2>
-            <span className="font-mono hidden sm:block" style={{ color: '#777', fontSize: '11px', letterSpacing: '0.15em', paddingBottom: '6px' }}>
-              {pad2(projects.length)} REELS · CLICK TO SCREEN
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between px-1" style={{ height: '18px', background: '#0a0a0a', borderTop: '1px solid #222' }}>
-            {Array.from({ length: 20 }, (_, i) => (
-              <div key={`b${i}`} style={{ width: '10px', height: '7px', borderRadius: '1.5px', background: '#080808', border: '0.5px solid #2a2a2a', flexShrink: 0 }} />
-            ))}
-          </div>
-        </div>
+      <div className="mb-6">
+        <ScopeHeader
+          title="WORK"
+          src={projects[0].image}
+          sourceLabel={`SRC: REEL 01 · ${projects[0].title}`}
+          meta={`${pad2(projects.length)} REELS · CLICK TO SCREEN`}
+          headerRef={headerRef}
+        />
       </div>
 
       {/* Reel index — sticks to the top while the cards stack (desktop only) */}
@@ -276,8 +259,6 @@ export default function Work() {
           </div>
         ))}
       </div>
-
-      <div className="film-strip w-full mt-12" />
 
       {lightboxProject && (
         <ProjectLightbox project={lightboxProject} onClose={closeLightbox} />

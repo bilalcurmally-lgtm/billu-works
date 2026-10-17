@@ -20,6 +20,7 @@ import ScrollToTop      from './components/ScrollToTop'
 import NotFound         from './components/NotFound'
 import { useReducedMotion } from './utils/useReducedMotion'
 import { useIsTouch }       from './utils/useIsTouch'
+import { settleCurve }      from './utils/settleCurve'
 
 function isKnownPath() {
   const path = window.location.pathname
@@ -60,18 +61,21 @@ export default function App() {
 
         ScrollTrigger.create({
           trigger: panel,
-          start: 'top top',
-          end: () => `+=${panel.offsetHeight}`,
+          // Panels taller than the screen pin once their bottom is reached,
+          // so the next panel never slides over content nobody has read yet
+          start: () => (panel.offsetHeight > window.innerHeight ? 'bottom bottom' : 'top top'),
+          // The next panel takes one viewport of scroll to cover this one
+          end: () => `+=${window.innerHeight}`,
           pin: true,
           pinSpacing: false,
           onUpdate: (self) => {
             // Skip expensive transforms during programmatic nav scrolls
             if (document.body.classList.contains('nav-scrolling')) return
-            const progress = self.progress
+            const t = settleCurve(self.progress)
             gsap.set(panel, {
-              scale: 1 - progress * 0.04,
-              filter: `blur(${progress * 6}px)`,
-              opacity: 1 - progress * 0.35,
+              scale: 1 - t * 0.04,
+              filter: `blur(${t * 6}px)`,
+              opacity: 1 - t * 0.35,
             })
           },
           onLeaveBack: () => {
